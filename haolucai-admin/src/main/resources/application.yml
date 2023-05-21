@@ -1,0 +1,51 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8080
+
+# MyBatisPlus配置
+mybatis-plus:
+  configuration:
+    # 更详细的日志输出 会有性能损耗
+    logImpl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+spring:
+  # Swagger启动SpringBoot失败 解决设置
+  mvc:
+    pathmatch:
+      matching-strategy: ant-path-matcher
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8&autoReconnect=true&rewriteBatchedStatements=true
+    name: root
+    password: 202428
+  # Redis
+  redis:
+    # 地址
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码(如没有密码请注释掉)
+    # password:
+    # 连接超时时间
+    timeout: 10s
+    # 是否开启ssl
+    ssl: false
+
+springfox:
+  documentation:
+    swagger:
+      v2:
+        path: /api-docs
+        use-model-v3: true
+
+knife4j:
+  # 开启增强
+  enable: true
+  # 开启登录认证
+  basic:
+    enable: true
+    username: admin
+    password: 123456
