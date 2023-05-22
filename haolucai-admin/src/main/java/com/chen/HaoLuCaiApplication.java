@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+
 /**
  * 启动程序
  *
@@ -11,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @date 2023/05/21 21:33:42
  */
 @Slf4j
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.chen")
 public class HaoLuCaiApplication {
     public static void main(String[] args) {
         SpringApplication application = new SpringApplication(HaoLuCaiApplication.class);
