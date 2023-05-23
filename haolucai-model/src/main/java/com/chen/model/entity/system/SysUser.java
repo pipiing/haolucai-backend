@@ -26,7 +26,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "用户账号")
     @TableField(value = "user_name")
     @NotBlank(message = "用户账号不能为空")
-    @Size(min = 0, max = 20, message = "用户账号长度不能超过0个字符")
+    @Size(min = 0, max = 20, message = "用户账号长度不能超过20个字符")
     private String userName;
 
     /**

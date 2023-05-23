@@ -6,7 +6,12 @@ package com.chen.common.constant;
  * @author Pipiing
  * @date 2022/09/09
  */
-public class Constants
+public interface Constants
 {
+
+    /**
+     * 令牌
+     */
+    public String TOKEN = "token";
 
 }

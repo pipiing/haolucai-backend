@@ -6,7 +6,7 @@ package com.chen.common.constant;
  * @author Pipiing
  * @date 2022/09/09
  */
-public class CacheConstants
+public interface CacheConstants
 {
 
 }
