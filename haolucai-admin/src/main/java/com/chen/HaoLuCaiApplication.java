@@ -19,4 +19,5 @@ public class HaoLuCaiApplication {
         application.run(args);
         log.info("(♥◠‿◠)ﾉﾞ  HaoLuCai启动成功   ლ(´ڡ`ლ)ﾞ");
     }
+
 }

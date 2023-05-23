@@ -1,7 +1,9 @@
 package com.chen.service.exception;
 
 
+import cn.dev33.satoken.exception.NotLoginException;
 import cn.hutool.core.util.StrUtil;
+import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import com.chen.service.result.CommonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -39,5 +41,30 @@ public class GlobalExceptionHandler {
         Integer code = e.getCode();
         return StrUtil.isEmptyIfStr(code) ? CommonResult.error(e.getMessage()) : CommonResult.error(code, e.getMessage());
     }
+
+    /**
+     * NotLoginException异常（Sa-Token中的用户未登录异常）
+     */
+    @ExceptionHandler(NotLoginException.class)
+    public CommonResult<String> handlerNotLoginException(NotLoginException nle) throws Exception {
+        // 判断场景值，定制化异常信息
+        String message = "";
+        if (nle.getType().equals(NotLoginException.NOT_TOKEN)) {
+            message = "未提供token";
+        } else if (nle.getType().equals(NotLoginException.INVALID_TOKEN)) {
+            message = "token无效";
+        } else if (nle.getType().equals(NotLoginException.TOKEN_TIMEOUT)) {
+            message = "token已过期";
+        } else if (nle.getType().equals(NotLoginException.BE_REPLACED)) {
+            message = "token已被顶下线";
+        } else if (nle.getType().equals(NotLoginException.KICK_OUT)) {
+            message = "token已被踢下线";
+        } else {
+            message = "当前会话未登录";
+        }
+        // 返回给前端
+        return CommonResult.error(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(),message);
+    }
+
 
 }

@@ -1,6 +1,7 @@
 package com.chen.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.model.dto.system.LoginUserDTO;
 import com.chen.model.entity.system.SysUser;
 
 /**
@@ -17,4 +18,12 @@ public interface SysUserService extends IService<SysUser> {
      * @return {@link SysUser } 用户信息
      */
     SysUser getSysUserByUserId(Long userId);
+
+    /**
+     * 根据用户登陆DTO获取用户信息
+     *
+     * @param loginUserDTO 用户登陆DTO
+     * @return {@link SysUser } 用户信息
+     */
+    SysUser getSysUserByUserDTO(LoginUserDTO loginUserDTO);
 }

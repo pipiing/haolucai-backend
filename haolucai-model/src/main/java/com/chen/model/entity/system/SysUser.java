@@ -99,4 +99,6 @@ public class SysUser extends BaseEntity {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+
 }

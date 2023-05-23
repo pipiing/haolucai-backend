@@ -1,7 +1,12 @@
 package com.chen.system.service.impl;
 
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.model.dto.system.LoginUserDTO;
 import com.chen.model.entity.system.SysUser;
+import com.chen.service.exception.ServiceException;
+import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import com.chen.system.service.SysUserService;
 import com.chen.system.mapper.SysUserMapper;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,24 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public SysUser getSysUserByUserId(Long userId) {
         return this.getById(userId);
+    }
+
+    @Override
+    public SysUser getSysUserByUserDTO(LoginUserDTO loginUserDTO) {
+        String userName = loginUserDTO.getUserName();
+        String password = loginUserDTO.getPassword();
+
+        LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(StrUtil.isNotBlank(userName),SysUser::getUserName,userName);
+        lambdaQueryWrapper.eq(StrUtil.isNotBlank(password),SysUser::getPassword,password);
+
+        SysUser loginUser = this.getOne(lambdaQueryWrapper);
+
+        if (loginUser == null){
+            throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(),"登陆账户或密码错误");
+        }
+
+        return loginUser;
     }
 
 }
