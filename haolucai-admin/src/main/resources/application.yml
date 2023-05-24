@@ -68,7 +68,7 @@ sa-token:
   # 是否尝试从cookie里读取token
   is-read-cookie: false
   # token风格
-  token-style: uuid
+  token-style: simple-uuid
   # 是否输出操作日志
   is-log: false
   # token前缀（此时 Sa-Token 便可在读取 Token 时裁剪掉 Bearer，成功获取xxxx-xxxx-xxxx-xxxx）
@@ -76,4 +76,14 @@ sa-token:
   # token-prefix: Pipiing
   # jwt秘钥
   jwt-secret-key: Pipiing
+  # 开启自动续签token
+  auto-renew: true
+
+# 用户配置
+user:
+  password:
+    # 密码最大错误次数
+    maxRetryCount: 3
+    # 密码锁定时间（默认5分钟）
+    lockTime: 5
 

@@ -8,10 +8,10 @@ package com.chen.common.constant;
  */
 public interface Constants
 {
-
     /**
      * 令牌
      */
     public String TOKEN = "token";
+
 
 }

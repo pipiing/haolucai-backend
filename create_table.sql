@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `sys_user`
 (
     `id`          bigint(20)  NOT NULL COMMENT '用户Id',
     `user_name`   varchar(20) NOT NULL DEFAULT '' COMMENT '用户账号',
-    `password`    varchar(30) NOT NULL DEFAULT '' COMMENT '用户密码',
+    `password`    varchar(100) NOT NULL DEFAULT '' COMMENT '用户密码',
     `nick_name`   varchar(30)          DEFAULT NULL COMMENT '用户昵称',
     `sex`         char(1)              DEFAULT NULL COMMENT '用户性别(0:男,1:女,2:未知)',
     `user_type`   char(1)              DEFAULT NULL COMMENT '用户类型(0:管理员,1:商家,2:顾客)',
