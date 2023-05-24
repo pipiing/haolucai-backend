@@ -40,8 +40,18 @@ public class SysLoginController {
         Map<String, Object> ajax = new HashMap<>();
         // 生成Token令牌
         String token = sysLoginService.login(loginUserDTO.getUserName(), loginUserDTO.getPassword());
-        ajax.put(Constants.TOKEN,token);
+        ajax.put(Constants.TOKEN, token);
         return CommonResult.success(ajax);
+    }
+
+    /**
+     * 退出登录（注销）
+     */
+    @ApiOperation("用户注销")
+    @PostMapping("/logout")
+    public CommonResult<String> logout() {
+        sysLoginService.logout();
+        return CommonResult.success("注销成功");
     }
 
 

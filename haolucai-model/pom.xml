@@ -16,7 +16,7 @@
         <!-- common-util依赖 -->
         <dependency>
             <groupId>com.chen</groupId>
-            <artifactId>service-util</artifactId>
+            <artifactId>common-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

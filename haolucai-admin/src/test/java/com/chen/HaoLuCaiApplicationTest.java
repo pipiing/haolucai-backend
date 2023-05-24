@@ -1,7 +1,9 @@
 package com.chen;
 
 import cn.dev33.satoken.secure.BCrypt;
+import com.chen.model.entity.system.LoginUser;
 import com.chen.model.entity.system.SysUser;
+import com.chen.service.helper.LoginHelper;
 import com.chen.system.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,12 @@ public class HaoLuCaiApplicationTest {
         } else {
             log.info("密码不一致:{}", false);
         }
+    }
+
+    @Test
+    public void test2(){
+        LoginUser loginUser = LoginHelper.getLoginUser();
+        log.info("loginUser:{}", loginUser);
     }
 
 

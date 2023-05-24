@@ -5,11 +5,14 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chen.common.constant.CacheConstants;
+import com.chen.common.enums.DeviceType;
 import com.chen.common.enums.UserStatus;
 import com.chen.common.utils.RedisCache;
+import com.chen.model.entity.system.LoginUser;
 import com.chen.model.entity.system.SysUser;
 import com.chen.service.exception.ServiceException;
 import com.chen.service.exception.enums.GlobalErrorCodeConstants;
+import com.chen.service.helper.LoginHelper;
 import com.chen.system.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,13 +53,23 @@ public class SysLoginService {
      */
     public String login(String userName, String password) {
         // 通过用户名和密码，加载用户
-        SysUser loginUser = this.loadUserByUsername(userName);
-        this.checkLogin(userName, () -> !BCrypt.checkpw(password, loginUser.getPassword()));
-        log.info("用户登录成功,用户ID:{}", loginUser.getId());
-        // 根据用户ID，进行登陆（Sa-Token）
-        StpUtil.login(loginUser.getId());
+        SysUser user = this.loadUserByUsername(userName);
+        this.checkLogin(userName, () -> !BCrypt.checkpw(password, user.getPassword()));
+        // 根据登录用户信息，构建loginUser
+        LoginUser loginUser = this.buildLoginUser(user);
+        // 根据用户ID，进行登陆（Sa-Token），并存入Sa-Token的缓存当中，以便于获取当前登录用户信息
         // 生成token，并返回
-        return StpUtil.getTokenInfo().getTokenValue();
+        LoginHelper.loginByDevice(loginUser, DeviceType.PC);
+        log.info("用户登录成功,用户ID:{}", loginUser.getUserId());
+        return StpUtil.getTokenValue();
+    }
+
+    /**
+     * 退出登录（注销）
+     */
+    public void logout() {
+        LoginUser loginUser = LoginHelper.getLoginUser();
+        log.info("loginUser:{}", loginUser);
     }
 
 
@@ -95,9 +108,14 @@ public class SysLoginService {
         // 从Redis中获取用户登录错误次数
         Integer errorNumber = redisCache.getCacheObject(errorKey);
 
+        // 锁定时间内登录，禁止登录
+        if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(maxRetryCount)) {
+            throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), "登录失败，该账户已被锁定");
+        }
+
         // 校验密码是否正确
         if (supplier.get()) {
-            // 是否登录密码第一次错误（未获取到）
+            // 登录密码，第一次错误（未获取到）
             errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
             // 达到规定错误次数 则锁定登录
             if (errorNumber.equals(maxRetryCount)) {
@@ -113,4 +131,24 @@ public class SysLoginService {
         // 登录成功 清空错误次数
         redisCache.deleteObject(errorKey);
     }
+
+    /**
+     * 构建登录用户
+     *
+     * @param user 用户
+     * @return {@link LoginUser } 登录用户信息
+     */
+    private LoginUser buildLoginUser(SysUser user) {
+        LoginUser loginUser = new LoginUser();
+        loginUser.setUserId(user.getId());
+        loginUser.setUserName(user.getUserName());
+        loginUser.setUserType(user.getUserType());
+//        loginUser.setMenuPermission(permissionService.getMenuPermission(user));
+//        loginUser.setRolePermission(permissionService.getRolePermission(user));
+//        List<RoleDTO> roles = BeanUtil.copyToList(user.getRoles(), RoleDTO.class);
+//        loginUser.setRoles(roles);
+        return loginUser;
+    }
+
+
 }

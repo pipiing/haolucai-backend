@@ -22,6 +22,27 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+
+    /**
+     * 拦截未知的运行时异常
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public CommonResult<Void> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',发生未知异常.", requestURI, e);
+        return CommonResult.error(e.getMessage());
+    }
+
+    /**
+     * 系统异常
+     */
+    @ExceptionHandler(Exception.class)
+    public CommonResult<String> handleException(Exception e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',发生系统异常.", requestURI, e);
+        return CommonResult.error(e.getMessage());
+    }
+
     /**
      * 请求方式不支持
      */
@@ -36,7 +57,7 @@ public class GlobalExceptionHandler {
      * 业务异常
      */
     @ExceptionHandler(ServiceException.class)
-    public CommonResult<String> handleServiceException(ServiceException e, HttpServletRequest request) {
+    public CommonResult<String> handleServiceException(ServiceException e) {
         log.error(e.getMessage(), e);
         Integer code = e.getCode();
         return StrUtil.isEmptyIfStr(code) ? CommonResult.error(e.getMessage()) : CommonResult.error(code, e.getMessage());
@@ -46,7 +67,7 @@ public class GlobalExceptionHandler {
      * NotLoginException异常（Sa-Token中的用户未登录异常）
      */
     @ExceptionHandler(NotLoginException.class)
-    public CommonResult<String> handlerNotLoginException(NotLoginException nle) throws Exception {
+    public CommonResult<String> handlerNotLoginException(NotLoginException nle) {
         // 判断场景值，定制化异常信息
         String message = "";
         if (nle.getType().equals(NotLoginException.NOT_TOKEN)) {
@@ -63,7 +84,7 @@ public class GlobalExceptionHandler {
             message = "当前会话未登录";
         }
         // 返回给前端
-        return CommonResult.error(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(),message);
+        return CommonResult.error(GlobalErrorCodeConstants.UNAUTHORIZED.getCode(), message);
     }
 
 
