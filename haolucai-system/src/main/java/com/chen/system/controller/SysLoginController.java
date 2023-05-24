@@ -43,4 +43,6 @@ public class SysLoginController {
         ajax.put(Constants.TOKEN,token);
         return CommonResult.success(ajax);
     }
+
+
 }
