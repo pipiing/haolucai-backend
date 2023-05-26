@@ -55,5 +55,6 @@ public class BaseEntity implements Serializable {
      */
     @TableField(exist = false)
     @ApiModelProperty("其他参数")
-    private Map<String, Object> param = new HashMap<>();
+    private Map<String, Object> params = new HashMap<>();
+
 }

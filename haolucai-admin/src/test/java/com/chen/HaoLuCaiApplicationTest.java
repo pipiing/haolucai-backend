@@ -34,5 +34,11 @@ public class HaoLuCaiApplicationTest {
         log.info("loginUser:{}", loginUser);
     }
 
+    @Test
+    public void test3(){
+        String hashpw = BCrypt.hashpw("202428");
+        log.info(hashpw);
+    }
+
 
 }

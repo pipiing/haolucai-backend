@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 用户状态枚举类
+ * 用户类型枚举类
  *
  * @author Pipiing
- * @date 2023/05/23 21:00:01
+ * @date 2023/05/25 08:51:14
  */
 @Getter
 @AllArgsConstructor
-public enum UserStatus {
+public enum UserType {
 
-    DISABLE(0, "停用"),
-    OK(1, "正常"),
+    MANAGER(0, "管理员"),
+    SELLER(1, "商家"),
     ;
 
     private final Integer code;

@@ -1,7 +1,8 @@
 package com.chen.system.controller;
 
+import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysUser;
-import com.chen.model.mapstruct.system.SysUserMapper;
+import com.chen.service.page.TableDataInfo;
 import com.chen.service.result.CommonResult;
 import com.chen.system.service.ISysUserService;
 import io.swagger.annotations.Api;
@@ -22,27 +23,30 @@ import javax.validation.constraints.NotNull;
  * @date 2023/5/22 15:03
  */
 @Slf4j
-@Api(tags = "用户管理")
+@Api(tags = "用户管理接口")
 @Validated
 @RestController
 @RequestMapping("/admin/sys/user")
 public class SysUserController {
 
     @Autowired
-    private ISysUserService ISysUserService;
+    private ISysUserService SysUserService;
 
-    @Autowired
-    private SysUserMapper sysUserMapper; // MapStruct转换Mapper
 
     @ApiOperation("用户查询")
     @GetMapping("/query")
     public CommonResult<SysUser> querySysUser(
             @RequestParam @ApiParam(name = "userId", value = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId
     ) {
-        SysUser user = ISysUserService.getSysUserByUserId(userId);
+        SysUser user = SysUserService.getSysUserByUserId(userId);
         return CommonResult.success(user);
     }
 
+    @ApiOperation("获取用户列表")
+    @GetMapping("/list")
+    public TableDataInfo<SysUser> list(SysUser user, PageQuery pageQuery) {
+        return SysUserService.selectPageUserList(user, pageQuery);
+    }
 
 
 }

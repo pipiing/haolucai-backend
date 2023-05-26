@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel("分页结果")
 @Data
+@ApiModel("分页结果")
 public final class PageResult<T> implements Serializable {
 
   @ApiModelProperty(value = "数据", required = true)

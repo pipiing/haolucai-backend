@@ -4,6 +4,7 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.context.model.SaStorage;
 import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
 import com.chen.common.enums.DeviceType;
 import com.chen.model.entity.system.LoginUser;
@@ -65,6 +66,25 @@ public class LoginHelper {
         SaHolder.getStorage().set(LOGIN_USER_KEY, loginUser);
         return loginUser;
     }
+
+    /**
+     * 获取用户id
+     */
+    public static Long getUserId() {
+        Long userId;
+        try {
+            userId = Convert.toLong(SaHolder.getStorage().get(USER_KEY));
+            if (ObjectUtil.isNull(userId)) {
+                userId = Convert.toLong(StpUtil.getExtra(USER_KEY));
+                SaHolder.getStorage().set(USER_KEY, userId);
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return userId;
+    }
+
+
 
 
 }

@@ -1,7 +1,9 @@
 package com.chen.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysUser;
+import com.chen.service.page.TableDataInfo;
 
 /**
 * @author chen
@@ -19,4 +21,12 @@ public interface ISysUserService extends IService<SysUser> {
     SysUser getSysUserByUserId(Long userId);
 
 
+    /**
+     * 获取用户分页信息列表
+     *
+     * @param user 用户条件查询参数
+     * @param pageQuery 分页查询
+     * @return {@link TableDataInfo }<{@link SysUser }> 分页用户信息列表
+     */
+    TableDataInfo<SysUser> selectPageUserList(SysUser user,PageQuery pageQuery);
 }

@@ -56,7 +56,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 注册 Sa-Token 拦截器，校验规则为 StpUtil.checkLogin() 登录校验
         registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
                 .addPathPatterns("/**")
-                .excludePathPatterns("/admin/login");
+                .excludePathPatterns("/admin/login") // 放行登陆接口
+                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**","/api-docs/**") // 放行Swagger接口
+        ;
 
 
     }

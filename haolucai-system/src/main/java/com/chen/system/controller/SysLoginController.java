@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@Api(tags = "登录验证")
+@Api(tags = "登录验证接口")
 @Validated
 @RestController
 @RequestMapping("/admin")

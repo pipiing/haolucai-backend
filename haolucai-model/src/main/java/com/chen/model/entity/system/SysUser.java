@@ -10,6 +10,7 @@ import lombok.Data;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
  * 用户信息表
@@ -95,6 +96,18 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty("状态(0:停用,1:正常)")
     @TableField(value = "status")
     private Integer status;
+
+    /**
+     * 角色对象
+     */
+    @TableField(exist = false)
+    private List<SysRole> roles;
+
+    /**
+     * 角色组
+     */
+    @TableField(exist = false)
+    private Long[] roleIds;
 
 
     @TableField(exist = false)

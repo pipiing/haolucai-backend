@@ -68,8 +68,7 @@ public class SysLoginService {
      * 退出登录（注销）
      */
     public void logout() {
-        LoginUser loginUser = LoginHelper.getLoginUser();
-        log.info("loginUser:{}", loginUser);
+        StpUtil.logout();
     }
 
 
