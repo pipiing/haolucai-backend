@@ -6,6 +6,7 @@ import com.chen.model.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -20,6 +21,7 @@ import java.util.Set;
 @Data
 @ApiModel(description = "角色")
 @TableName(value = "sys_role")
+@EqualsAndHashCode(callSuper = true)
 public class SysRole extends BaseEntity {
 
     /**
@@ -63,15 +65,17 @@ public class SysRole extends BaseEntity {
     private String description;
 
     /**
-     * 菜单组
+     * 菜单ID组
      */
+    @ApiModelProperty("菜单组")
     @TableField(exist = false)
     private Long[] menuIds;
 
 
     /**
-     * 角色菜单权限
+     * 角色菜单权限列表
      */
+    @ApiModelProperty("角色菜单权限列表")
     @TableField(exist = false)
     private Set<String> permissions;
 

@@ -26,12 +26,12 @@ public interface UserConstants {
     /**
      * 用户正常状态
      */
-    String USER_NORMAL = "1";
+    String USER_NORMAL = "0";
 
     /**
      * 用户封禁状态
      */
-    String USER_DISABLE = "0";
+    String USER_DISABLE = "1";
 
     /**
      * 角色正常状态

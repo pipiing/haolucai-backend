@@ -12,15 +12,16 @@ import org.springframework.context.annotation.Configuration;
  * @date 2023/5/22 09:47
  */
 @Configuration
-@MapperScan({"com.chen.system.mapper"})
+@MapperScan({"com.chen.*.mapper"})
 public class MyBatisPlusConfig {
 
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 添加分页拦截器
-        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));
-
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
+        paginationInnerInterceptor.setOverflow(true);
+        interceptor.addInnerInterceptor(paginationInnerInterceptor);
         return interceptor;
     }
 

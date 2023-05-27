@@ -1,6 +1,5 @@
 package com.chen.service.page;
 
-import cn.hutool.http.HttpStatus;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +10,10 @@ import java.util.List;
 /**
  * 表格分页数据对象
  *
- * @author Lion Li
+ * @author Pipiing
+ * @description
+ * @date 2023/05/27 09:35:05
  */
-
 @Data
 @NoArgsConstructor
 public class TableDataInfo<T> implements Serializable {
@@ -30,16 +30,6 @@ public class TableDataInfo<T> implements Serializable {
     private List<T> rows;
 
     /**
-     * 消息状态码
-     */
-    private int code;
-
-    /**
-     * 消息内容
-     */
-    private String msg;
-
-    /**
      * 分页
      *
      * @param list  列表数据
@@ -53,8 +43,6 @@ public class TableDataInfo<T> implements Serializable {
     public static <T> TableDataInfo<T> build(IPage<T> page) {
         // 封装 分页对象 返回前端
         TableDataInfo<T> rspData = new TableDataInfo<>();
-        rspData.setCode(HttpStatus.HTTP_OK);
-        rspData.setMsg("查询成功");
         rspData.setRows(page.getRecords());
         rspData.setTotal(page.getTotal());
         return rspData;
@@ -62,18 +50,13 @@ public class TableDataInfo<T> implements Serializable {
 
     public static <T> TableDataInfo<T> build(List<T> list) {
         TableDataInfo<T> rspData = new TableDataInfo<>();
-        rspData.setCode(HttpStatus.HTTP_OK);
-        rspData.setMsg("查询成功");
         rspData.setRows(list);
         rspData.setTotal(list.size());
         return rspData;
     }
 
     public static <T> TableDataInfo<T> build() {
-        TableDataInfo<T> rspData = new TableDataInfo<>();
-        rspData.setCode(HttpStatus.HTTP_OK);
-        rspData.setMsg("查询成功");
-        return rspData;
+        return new TableDataInfo<>();
     }
 
 }

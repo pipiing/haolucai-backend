@@ -6,6 +6,7 @@ import com.chen.model.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -19,6 +20,7 @@ import java.util.List;
 @Data
 @ApiModel(description = "用户")
 @TableName(value ="sys_user")
+@EqualsAndHashCode(callSuper = true)
 public class SysUser extends BaseEntity {
 
     /**
@@ -98,15 +100,17 @@ public class SysUser extends BaseEntity {
     private Integer status;
 
     /**
-     * 角色对象
+     * 角色对象列表
      */
     @TableField(exist = false)
+    @ApiModelProperty("角色对象列表")
     private List<SysRole> roles;
 
     /**
-     * 角色组
+     * 角色ID组
      */
     @TableField(exist = false)
+    @ApiModelProperty("角色ID组")
     private Long[] roleIds;
 
 

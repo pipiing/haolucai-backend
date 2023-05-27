@@ -10,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,7 +23,6 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @Api(tags = "用户管理接口")
-@Validated
 @RestController
 @RequestMapping("/admin/sys/user")
 public class SysUserController {
@@ -44,8 +42,9 @@ public class SysUserController {
 
     @ApiOperation("获取用户列表")
     @GetMapping("/list")
-    public TableDataInfo<SysUser> list(SysUser user, PageQuery pageQuery) {
-        return SysUserService.selectPageUserList(user, pageQuery);
+    public CommonResult<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
+        TableDataInfo<SysUser> sysUserTableDataInfo = SysUserService.selectPageUserList(user, pageQuery);
+        return CommonResult.success(sysUserTableDataInfo);
     }
 
 

@@ -11,6 +11,7 @@ import com.chen.model.entity.system.SysUser;
 import com.chen.service.page.TableDataInfo;
 import com.chen.system.mapper.SysUserMapper;
 import com.chen.system.service.ISysUserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -20,6 +21,7 @@ import java.util.Map;
  * @description 针对表【sys_user(用户信息表)】的数据库操作Service实现
  * @createDate 2023-05-22 14:28:07
  */
+@Slf4j
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         implements ISysUserService {
@@ -53,7 +55,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
                 .like(StrUtil.isNotBlank(user.getNickName()), SysUser::getNickName, user.getNickName()) // 用户昵称模糊查询
                 .like(StrUtil.isNotBlank(user.getPhone()), SysUser::getPhone, user.getPhone()) // 手机号码模糊查询
                 .between(params.get("beginTime") != null && params.get("endTime") != null,
-                        SysUser::getCreateTime, params.get("beginTime"), params.get("endTime")); // 创建时间是否在开始时间和结束时间氛围内
+                        SysUser::getCreateTime, params.get("beginTime"), params.get("endTime")); // 创建时间是否在开始时间和结束时间范围内
 
         return lambdaQueryWrapper;
     }
