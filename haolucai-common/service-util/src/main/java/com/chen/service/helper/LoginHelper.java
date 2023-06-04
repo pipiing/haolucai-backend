@@ -68,7 +68,7 @@ public class LoginHelper {
     }
 
     /**
-     * 获取用户id
+     * 获取用户ID
      */
     public static Long getUserId() {
         Long userId;
@@ -82,6 +82,15 @@ public class LoginHelper {
             return null;
         }
         return userId;
+    }
+
+
+
+    /**
+     * 获取用户账户（用户名）
+     */
+    public static String getUsername() {
+        return getLoginUser().getUserName();
     }
 
 

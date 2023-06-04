@@ -2,6 +2,7 @@ package com.chen.system.controller;
 
 import com.chen.common.constant.Constants;
 import com.chen.model.dto.system.LoginUserDTO;
+import com.chen.service.controller.BaseController;
 import com.chen.service.result.CommonResult;
 import com.chen.system.service.SysLoginService;
 import io.swagger.annotations.Api;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Validated
 @RestController
 @RequestMapping("/admin")
-public class SysLoginController {
+public class SysLoginController extends BaseController {
 
     @Autowired
     private SysLoginService sysLoginService;
@@ -36,7 +37,6 @@ public class SysLoginController {
     @ApiOperation("用户登陆")
     @PostMapping("/login")
     public CommonResult<Map<String, Object>> login(@Validated @RequestBody LoginUserDTO loginUserDTO) {
-        log.info("用户登陆DTO:{}", loginUserDTO);
         Map<String, Object> ajax = new HashMap<>();
         // 生成Token令牌
         String token = sysLoginService.login(loginUserDTO.getUserName(), loginUserDTO.getPassword());

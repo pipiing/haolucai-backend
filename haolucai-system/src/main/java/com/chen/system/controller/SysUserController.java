@@ -2,6 +2,7 @@ package com.chen.system.controller;
 
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysUser;
+import com.chen.service.controller.BaseController;
 import com.chen.service.page.TableDataInfo;
 import com.chen.service.result.CommonResult;
 import com.chen.system.service.ISysUserService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,9 +25,10 @@ import javax.validation.constraints.NotNull;
  */
 @Slf4j
 @Api(tags = "用户管理接口")
+@Validated
 @RestController
-@RequestMapping("/admin/sys/user")
-public class SysUserController {
+@RequestMapping("/admin/sysUser")
+public class SysUserController extends BaseController {
 
     @Autowired
     private ISysUserService SysUserService;
@@ -40,6 +43,13 @@ public class SysUserController {
         return CommonResult.success(user);
     }
 
+    /**
+     * 获取用户信息条件查询分页列表
+     *
+     * @param user      用户信息
+     * @param pageQuery 分页条件查询
+     * @return {@link CommonResult }<{@link TableDataInfo }<{@link SysUser }>> 表格分页数据对象
+     */
     @ApiOperation("获取用户列表")
     @GetMapping("/list")
     public CommonResult<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
