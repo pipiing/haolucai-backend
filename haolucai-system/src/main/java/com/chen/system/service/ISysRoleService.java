@@ -1,7 +1,9 @@
 package com.chen.system.service;
 
-import com.chen.model.entity.system.SysRole;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.chen.model.entity.system.SysRole;
+
+import java.util.Set;
 
 /**
 * @author Pipiing
@@ -10,4 +12,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ISysRoleService extends IService<SysRole> {
 
+    /**
+     * 根据用户ID查询权限
+     *
+     * @param userId 用户ID
+     * @return {@link Set }<{@link String }> 权限字符串集合
+     */
+    Set<String> selectRolePermissionByUserId(Long userId);
 }

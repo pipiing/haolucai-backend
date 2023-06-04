@@ -36,7 +36,7 @@ public class SysRole extends BaseEntity {
     /**
      * 角色权限字符串
      */
-    @NotBlank(message = "权限字符不能为空")
+    @NotBlank(message = "角色权限字符串不能为空")
     @Size(min = 0, max = 100, message = "权限字符长度不能超过100个字符")
     @ApiModelProperty("角色权限字符串")
     @TableField(value = "role_key")

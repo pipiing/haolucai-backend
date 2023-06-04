@@ -9,23 +9,29 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * @author Pipiing
- * @date 2023/5/25 10:35
+ * 角色菜单
+ * @TableName sys_role_menu
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-@ApiModel(description = "用户和角色关联")
-@TableName("sys_user_role")
-public class SysUserRole extends BaseEntity {
+@ApiModel(description = "角色和菜单关联")
+@TableName(value ="sys_role_menu")
+public class SysRoleMenu extends BaseEntity {
 
-    private static final long serialVersionUID = 1L;
-
+    /**
+     * 角色ID
+     */
     @ApiModelProperty(value = "角色ID")
-    @TableField("role_id")
+    @TableField(value = "role_id")
     private Long roleId;
 
-    @ApiModelProperty(value = "用户ID")
-    @TableField("user_id")
-    private Long userId;
+    /**
+     * 菜单ID
+     */
+    @ApiModelProperty(value = "菜单ID")
+    @TableField(value = "menu_id")
+    private Long menuId;
 
+
+    private static final long serialVersionUID = 1L;
 }

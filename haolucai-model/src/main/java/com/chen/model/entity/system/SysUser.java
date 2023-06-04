@@ -2,6 +2,7 @@ package com.chen.model.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.chen.common.constant.UserConstants;
 import com.chen.model.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,7 +30,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "用户账号")
     @TableField(value = "user_name")
     @NotBlank(message = "用户账号不能为空")
-    @Size(min = 0, max = 20, message = "用户账号长度不能超过20个字符")
+    @Size(min = 0, max = 20, message = "用户账号长度不能超过{max}个字符")
     private String userName;
 
     /**
@@ -38,7 +39,7 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty(value = "用户密码")
     @TableField("password")
     @NotBlank(message = "账户密码不能为空")
-    @Size(min = 0, max = 30, message = "用户密码长度不能超过30个字符")
+    @Size(min = 0, max = 30, message = "用户密码长度不能超过{max}个字符")
     private String password;
 
     /**
@@ -46,7 +47,7 @@ public class SysUser extends BaseEntity {
      */
     @ApiModelProperty(value = "用户昵称")
     @TableField("nick_name")
-    @Size(min = 0, max = 20, message = "用户昵称长度不能超过20个字符")
+    @Size(min = 0, max = 20, message = "用户昵称长度不能超过{max}个字符")
     private String nickName;
 
     /**
@@ -116,6 +117,10 @@ public class SysUser extends BaseEntity {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public boolean isAdmin() {
+        return UserConstants.ADMIN_ID.equals(this.getId());
+    }
 
 
 }

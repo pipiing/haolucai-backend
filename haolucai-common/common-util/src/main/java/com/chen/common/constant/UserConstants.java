@@ -8,10 +8,6 @@ package com.chen.common.constant;
  */
 public interface UserConstants {
 
-    /**
-     * 平台内系统用户的唯一标志
-     */
-    String SYS_USER = "SYS_USER";
 
     /**
      * 正常状态
@@ -76,17 +72,22 @@ public interface UserConstants {
     /**
      * 菜单类型（目录）
      */
-    String TYPE_DIR = "M";
+    String TYPE_DIR = "D";
 
     /**
      * 菜单类型（菜单）
      */
-    String TYPE_MENU = "C";
+    String TYPE_MENU = "M";
 
     /**
      * 菜单类型（按钮）
      */
-    String TYPE_BUTTON = "F";
+    String TYPE_BUTTON = "B";
+
+    /**
+     * 管理员ID
+     */
+    Long ADMIN_ID = 1L;
 
 
 }
