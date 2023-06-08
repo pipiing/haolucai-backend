@@ -42,5 +42,24 @@ public class SysPermissionService {
         return roles;
     }
 
+    /**
+     * 获取菜单数据权限
+     *
+     * @param user 用户信息
+     * @return {@link Set }<{@link String }> 菜单权限信息 字符串集合
+     */
+    public Set<String> getMenuPermission(SysUser user){
+        Set<String> perms = new HashSet<>();
+        // 管理员拥有所有权限
+        if (user.isAdmin()) {
+            perms.add("*:*:*");
+        } else {
+            perms.addAll(sysMenuService.selectMenuPermsByUserId(user.getId()));
+        }
+        return perms;
+    }
+
+
+
 
 }

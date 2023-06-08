@@ -1,7 +1,7 @@
 package com.chen.system.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chen.model.entity.system.SysRole;
+import com.chen.service.mapper.BaseMapperPlus;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ import java.util.List;
 * @createDate 2023-05-25 09:32:54
 * @Entity com.chen.model.entity.system.SysRole
 */
-public interface SysRoleMapper extends BaseMapper<SysRole> {
+public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper,SysRole,SysRolew> {
 
     /**
-     * 根据用户ID查询角色
+     * 根据用户ID查询角色权限列表
      *
      * @param userId 用户ID
-     * @return {@link List }<{@link SysRole }> 角色列表
+     * @return {@link List }<{@link SysRole }> 角色权限列表
      */
     List<SysRole> selectRolePermissionByUserId(Long userId);
 }

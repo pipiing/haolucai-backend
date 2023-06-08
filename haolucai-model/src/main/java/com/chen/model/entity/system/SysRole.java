@@ -2,6 +2,7 @@ package com.chen.model.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.chen.common.constant.UserConstants;
 import com.chen.model.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -71,7 +72,6 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private Long[] menuIds;
 
-
     /**
      * 角色菜单权限列表
      */
@@ -82,4 +82,8 @@ public class SysRole extends BaseEntity {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public boolean isAdmin() {
+        return UserConstants.ADMIN_ID.equals(this.getId());
+    }
 }

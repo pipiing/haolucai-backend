@@ -18,7 +18,7 @@ public interface ISysUserService extends IService<SysUser> {
      * @param userId 用户ID
      * @return {@link SysUser } 用户信息
      */
-    SysUser getSysUserByUserId(Long userId);
+    SysUser selectUserById(Long userId);
 
 
     /**
@@ -29,4 +29,28 @@ public interface ISysUserService extends IService<SysUser> {
      * @return {@link TableDataInfo }<{@link SysUser }> 分页用户信息列表
      */
     TableDataInfo<SysUser> selectPageUserList(SysUser user,PageQuery pageQuery);
+
+    /**
+     * 校验用户名称是否唯一
+     *
+     * @param user 用户信息
+     * @return {@link String } 是否唯一结果码
+     */
+    String checkUserNameUnique(SysUser user);
+
+    /**
+     * 校验电话号码是否唯一
+     *
+     * @param user 用户信息
+     * @return {@link String } 是否唯一结果码
+     */
+    String checkPhoneUnique(SysUser user);
+
+    /**
+     * 新增用户信息
+     *
+     * @param user 用户信息
+     * @return int 插入成功数目
+     */
+    int insertUser(SysUser user);
 }

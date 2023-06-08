@@ -3,6 +3,7 @@ package com.chen.system.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.model.entity.system.SysRole;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -13,10 +14,17 @@ import java.util.Set;
 public interface ISysRoleService extends IService<SysRole> {
 
     /**
-     * 根据用户ID查询权限
+     * 根据用户ID查询角色权限
      *
      * @param userId 用户ID
-     * @return {@link Set }<{@link String }> 权限字符串集合
+     * @return {@link Set }<{@link String }> 角色权限字符串集合
      */
     Set<String> selectRolePermissionByUserId(Long userId);
+
+    /**
+     * 查询所有角色对象集合
+     *
+     * @return {@link List }<{@link SysRole }> 角色对象对象集合
+     */
+    List<SysRole> selectRoleAll();
 }

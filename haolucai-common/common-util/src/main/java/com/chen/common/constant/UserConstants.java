@@ -12,12 +12,12 @@ public interface UserConstants {
     /**
      * 正常状态
      */
-    String NORMAL = "1";
+    String NORMAL = "0";
 
     /**
      * 异常状态
      */
-    String EXCEPTION = "0";
+    String EXCEPTION = "1";
 
     /**
      * 用户正常状态
@@ -32,17 +32,17 @@ public interface UserConstants {
     /**
      * 角色正常状态
      */
-    String ROLE_NORMAL = "1";
+    String ROLE_NORMAL = "0";
 
     /**
      * 角色封禁状态
      */
-    String ROLE_DISABLE = "0";
+    String ROLE_DISABLE = "1";
 
     /**
      * 字典正常状态
      */
-    String DICT_NORMAL = "1";
+    String DICT_NORMAL = "0";
 
     /**
      * 是否为系统默认（是）
@@ -62,12 +62,12 @@ public interface UserConstants {
     /**
      * 菜单正常状态
      */
-    String MENU_NORMAL = "1";
+    String MENU_NORMAL = "0";
 
     /**
      * 菜单停用状态
      */
-    String MENU_DISABLE = "0";
+    String MENU_DISABLE = "1";
 
     /**
      * 菜单类型（目录）
@@ -83,6 +83,16 @@ public interface UserConstants {
      * 菜单类型（按钮）
      */
     String TYPE_BUTTON = "B";
+
+    /**
+     * 用户唯一
+     */
+    String UNIQUE = "0";
+
+    /**
+     * 用户不唯一
+     */
+    String NOT_UNIQUE = "1";
 
     /**
      * 管理员ID

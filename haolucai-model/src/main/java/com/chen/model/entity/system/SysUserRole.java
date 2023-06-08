@@ -20,12 +20,11 @@ public class SysUserRole extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "角色ID")
-    @TableField("role_id")
-    private Long roleId;
-
     @ApiModelProperty(value = "用户ID")
     @TableField("user_id")
     private Long userId;
 
+    @ApiModelProperty(value = "角色ID")
+    @TableField("role_id")
+    private Long roleId;
 }

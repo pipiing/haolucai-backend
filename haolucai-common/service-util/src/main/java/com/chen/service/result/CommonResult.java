@@ -70,7 +70,7 @@ public class CommonResult<T> implements Serializable {
     }
 
     public static <T> CommonResult<T> error(String message) {
-        return error(null, message);
+        return error(GlobalErrorCodeConstants.ERROR.getCode(), message);
     }
 
     public static <T> CommonResult<T> success(T data) {

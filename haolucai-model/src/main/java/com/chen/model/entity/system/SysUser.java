@@ -114,6 +114,13 @@ public class SysUser extends BaseEntity {
     @ApiModelProperty("角色ID组")
     private Long[] roleIds;
 
+    /**
+     * 数据权限 当前角色ID
+     */
+    @TableField(exist = false)
+    @ApiModelProperty("当前角色ID")
+    private Long roleId;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

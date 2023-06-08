@@ -1,7 +1,7 @@
 package com.chen.system.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.chen.model.entity.system.SysRoleMenu;
+import com.chen.service.mapper.BaseMapperPlus;
 
 /**
 * @author Pipiing
@@ -9,7 +9,7 @@ import com.chen.model.entity.system.SysRoleMenu;
 * @createDate 2023-06-04 09:38:58
 * @Entity com.chen.model.entity.system.SysRoleMenu
 */
-public interface SysRoleMenuMapper extends BaseMapper<SysRoleMenu> {
+public interface SysRoleMenuMapper extends BaseMapperPlus<SysRoleMenuMapper,SysRoleMenu,SysRoleMenu> {
 
 }
 

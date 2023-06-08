@@ -28,5 +28,41 @@
         is_deleted
     </sql>
 
+    <select id="selectMenuPermsByUserId" resultType="java.lang.String">
+        select distinct m.perms
+        from sys_menu m
+                 left join sys_role_menu srm on m.id = srm.menu_id
+                 left join sys_user_role sur on srm.role_id = sur.role_id
+                 left join sys_role r on r.id = sur.role_id
+        where m.status = '1'
+          and r.status = '1'
+          and sur.user_id = #{userId}
+    </select>
+
+
+    <select id="selectMenuTreeByUserId" resultType="com.chen.model.entity.system.SysMenu">
+        select distinct m.id,
+                        m.parent_id,
+                        m.name,
+                        m.path,
+                        m.component,
+                        m.status,
+                        m.perms,
+                        m.type,
+                        m.icon,
+                        m.menu_sort,
+                        m.create_time
+        from sys_menu m
+                 left join sys_role_menu srm on m.id = srm.menu_id
+                 left join sys_role r on srm.role_id = r.id
+                 left join sys_user_role sur on sur.role_id = r.id
+                 left join sys_user u on sur.user_id = u.id
+        where sur.user_id = #{userId}
+          and m.type in ('D', 'M') -- 目录、菜单
+          and m.status = 1 -- 菜单状态可用
+          and r.status = 1 -- 角色状态可用
+        order by m.parent_id, m.menu_sort;
+    </select>
+
 
 </mapper>

@@ -23,7 +23,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component
-public class RedisCache {
+public class RedisUtils {
+
     @Autowired
     public RedisTemplate redisTemplate;
 

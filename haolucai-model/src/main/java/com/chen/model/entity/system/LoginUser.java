@@ -1,9 +1,11 @@
 package com.chen.model.entity.system;
 
+import com.chen.model.dto.system.RoleDTO;
 import lombok.Data;
 import lombok.ToString;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -48,10 +50,15 @@ public class LoginUser implements Serializable {
      */
     private Set<String> rolePermission;
 
-
     /**
      * 数据权限 当前角色ID
      */
     private Long roleId;
+
+    /**
+     * 角色对象
+     */
+    private List<RoleDTO> roles;
+
 
 }

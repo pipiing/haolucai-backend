@@ -1,7 +1,7 @@
 package com.chen.system.mapper;
 
 import com.chen.model.entity.system.SysUser;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.chen.service.mapper.BaseMapperPlus;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -11,7 +11,16 @@ import org.springframework.stereotype.Repository;
  * @Entity com.chen.model.entity.system.SysUser
  */
 @Repository
-public interface SysUserMapper extends BaseMapper<SysUser> {
+public interface SysUserMapper extends BaseMapperPlus<SysUserMapper,SysUser,SysUser> {
+
+    /**
+     * 通过用户名查询用户
+     *
+     * @param userName 用户名
+     * @return 用户对象信息
+     */
+    SysUser selectUserByUserName(String userName);
+
 
 }
 

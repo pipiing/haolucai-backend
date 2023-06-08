@@ -6,6 +6,7 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
+import com.chen.common.constant.UserConstants;
 import com.chen.common.enums.DeviceType;
 import com.chen.model.entity.system.LoginUser;
 
@@ -84,13 +85,23 @@ public class LoginHelper {
         return userId;
     }
 
-
-
     /**
      * 获取用户账户（用户名）
+     *
+     * @return {@link String } 用户名
      */
     public static String getUsername() {
         return getLoginUser().getUserName();
+    }
+
+    /**
+     * 是否为管理员
+     *
+     * @param userId 用户ID
+     * @return boolean 结果
+     */
+    public static boolean isAdmin(Long userId) {
+        return UserConstants.ADMIN_ID.equals(userId);
     }
 
 

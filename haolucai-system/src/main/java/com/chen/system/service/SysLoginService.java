@@ -7,9 +7,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.chen.common.constant.CacheConstants;
 import com.chen.common.enums.DeviceType;
 import com.chen.common.enums.UserStatus;
-import com.chen.common.utils.RedisCache;
+import com.chen.common.utils.RedisUtils;
+import com.chen.model.dto.system.RoleDTO;
 import com.chen.model.entity.system.LoginUser;
 import com.chen.model.entity.system.SysUser;
+import com.chen.model.mapstruct.system.SysRoleMapper;
 import com.chen.service.exception.ServiceException;
 import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import com.chen.service.helper.LoginHelper;
@@ -19,8 +21,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 /**
  * 系统登录校验服务
@@ -36,7 +40,13 @@ public class SysLoginService {
     private SysUserMapper sysUserMapper;
 
     @Autowired
-    private RedisCache redisCache;
+    private SysRoleMapper mapStructRoleMapper;
+
+    @Autowired
+    private SysPermissionService sysPermissionService;
+
+    @Autowired
+    private RedisUtils redisUtils;
 
     @Value("${user.password.maxRetryCount}")
     private Integer maxRetryCount;
@@ -52,15 +62,17 @@ public class SysLoginService {
      * @return token令牌
      */
     public String login(String userName, String password) {
-        // 通过用户名和密码，加载用户
+        // 通过用户名，加载用户
         SysUser user = this.loadUserByUsername(userName);
+        // 校验登录密码是否一致
         this.checkLogin(userName, () -> !BCrypt.checkpw(password, user.getPassword()));
         // 根据登录用户信息，构建loginUser
         LoginUser loginUser = this.buildLoginUser(user);
         // 根据用户ID，进行登陆（Sa-Token），并存入Sa-Token的缓存当中，以便于获取当前登录用户信息
         // 生成token，并返回
         LoginHelper.loginByDevice(loginUser, DeviceType.PC);
-        log.info("用户登录成功,用户ID:{}", loginUser.getUserId());
+        log.info("用户信息,user:{}", user);
+        log.info("用户登录成功,loginUser:{}", loginUser);
         return StpUtil.getTokenValue();
     }
 
@@ -80,18 +92,40 @@ public class SysLoginService {
      */
     private SysUser loadUserByUsername(String userName) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysUser::getUserName, userName);
-
+        lambdaQueryWrapper
+                .select(SysUser::getUserName, SysUser::getStatus)
+                .eq(SysUser::getUserName, userName);
         SysUser loginUser = sysUserMapper.selectOne(lambdaQueryWrapper);
 
         if (ObjectUtil.isNull(loginUser)) {
             log.info("登录用户：{} 不存在.", userName);
             throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), "登录用户不存在");
-        } else if (UserStatus.DISABLE.getCode().equals(loginUser.getStatus())) {
+        } else if (Integer.valueOf(UserStatus.DISABLE.getCode()).equals(loginUser.getStatus())) {
             log.info("登录用户：{} 已被停用.", userName);
             throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), "登录用户被停用");
         }
 
+        return sysUserMapper.selectUserByUserName(userName);
+    }
+
+    /**
+     * 构建登录用户
+     *
+     * @param user 用户信息
+     * @return {@link LoginUser } 登录用户信息
+     */
+    private LoginUser buildLoginUser(SysUser user) {
+        LoginUser loginUser = new LoginUser();
+        loginUser.setUserId(user.getId());
+        loginUser.setUserName(user.getUserName());
+        loginUser.setUserType(user.getUserType());
+        loginUser.setMenuPermission(sysPermissionService.getMenuPermission(user));
+        loginUser.setRolePermission(sysPermissionService.getRolePermission(user));
+        // 将 SysRole对象 转换成 RoleDTO对象
+        List<RoleDTO> roles = user.getRoles().stream()
+                .map(role -> mapStructRoleMapper.roleToRoleDTO(role))
+                .collect(Collectors.toList());
+        loginUser.setRoles(roles);
         return loginUser;
     }
 
@@ -105,7 +139,7 @@ public class SysLoginService {
         String errorKey = CacheConstants.PWD_ERR_CNT_KEY + userName;
 
         // 从Redis中获取用户登录错误次数
-        Integer errorNumber = redisCache.getCacheObject(errorKey);
+        Integer errorNumber = redisUtils.getCacheObject(errorKey);
 
         // 锁定时间内登录，禁止登录
         if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(maxRetryCount)) {
@@ -118,35 +152,17 @@ public class SysLoginService {
             errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
             // 达到规定错误次数 则锁定登录
             if (errorNumber.equals(maxRetryCount)) {
-                redisCache.setCacheObject(errorKey, errorNumber, lockTime, TimeUnit.MINUTES);
+                redisUtils.setCacheObject(errorKey, errorNumber, lockTime, TimeUnit.MINUTES);
                 throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), String.format("密码输入错误%s次，帐户锁定%s分钟", maxRetryCount, lockTime));
             } else {
                 // 未达到规定错误次数 则递增
-                redisCache.setCacheObject(errorKey, errorNumber);
+                redisUtils.setCacheObject(errorKey, errorNumber);
                 throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), String.format("密码输入错误%s次", errorNumber));
             }
         }
 
         // 登录成功 清空错误次数
-        redisCache.deleteObject(errorKey);
-    }
-
-    /**
-     * 构建登录用户
-     *
-     * @param user 用户
-     * @return {@link LoginUser } 登录用户信息
-     */
-    private LoginUser buildLoginUser(SysUser user) {
-        LoginUser loginUser = new LoginUser();
-        loginUser.setUserId(user.getId());
-        loginUser.setUserName(user.getUserName());
-        loginUser.setUserType(user.getUserType());
-//        loginUser.setMenuPermission(permissionService.getMenuPermission(user));
-//        loginUser.setRolePermission(permissionService.getRolePermission(user));
-//        List<RoleDTO> roles = BeanUtil.copyToList(user.getRoles(), RoleDTO.class);
-//        loginUser.setRoles(roles);
-        return loginUser;
+        redisUtils.deleteObject(errorKey);
     }
 
 
