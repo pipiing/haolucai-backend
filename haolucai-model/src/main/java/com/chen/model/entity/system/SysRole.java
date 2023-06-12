@@ -79,6 +79,12 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private Set<String> permissions;
 
+    /**
+     * 用户是否存在此角色标识 默认不存在
+     */
+    @TableField(exist = false)
+    private boolean flag = false;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

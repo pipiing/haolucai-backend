@@ -50,24 +50,14 @@ public interface UserConstants {
     String YES = "Y";
 
     /**
-     * 是否菜单外链（是）
-     */
-    String YES_FRAME = "1";
-
-    /**
-     * 是否菜单外链（否）
-     */
-    String NO_FRAME = "0";
-
-    /**
      * 菜单正常状态
      */
-    String MENU_NORMAL = "0";
+    String MENU_NORMAL = "1";
 
     /**
      * 菜单停用状态
      */
-    String MENU_DISABLE = "1";
+    String MENU_DISABLE = "0";
 
     /**
      * 菜单类型（目录）

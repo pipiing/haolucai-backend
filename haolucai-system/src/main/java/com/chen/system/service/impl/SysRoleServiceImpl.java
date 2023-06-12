@@ -51,6 +51,27 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
         return this.selectRoleList(new SysRole());
     }
 
+    @Override
+    public List<SysRole> selectRolesByUserId(Long userId) {
+        // TODO RuoYi-Vue-Plus写法，为什么不直接根据用户ID查询拥有的角色对象集合
+        // return baseMapper.selectRolePermissionByUserId(userId);
+
+        // 根据用户ID查询角色对象集合
+        List<SysRole> userRoles = baseMapper.selectRolePermissionByUserId(userId);
+        // 获取全部角色对象集合
+        List<SysRole> roles = this.selectRoleAll();
+        // 循环判断 用户所拥有的角色集合 和 全部对象集合，将用户所拥有的角色集合标识为true
+        for (SysRole userRole : userRoles) {
+            for (SysRole role : roles) {
+                if (userRole.getId().intValue() == role.getId().intValue()){
+                    role.setFlag(true);
+                    break;
+                }
+            }
+        }
+        return roles;
+    }
+
     /**
      * 构建条件查询对象
      *

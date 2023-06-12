@@ -45,13 +45,8 @@ CREATE TABLE IF NOT EXISTS `sys_role`
 # 创建用户角色关系表
 CREATE TABLE IF NOT EXISTS `sys_user_role`
 (
-    `id`          bigint(20) NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `role_id`     bigint(20) NOT NULL DEFAULT '0' COMMENT '角色ID',
     `user_id`     bigint(20) NOT NULL DEFAULT '0' COMMENT '用户ID',
-    `create_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）',
-    PRIMARY KEY (`id`),
     KEY `idx_role_id` (`role_id`),
     KEY `idx_admin_id` (`user_id`)
 ) ENGINE = InnoDB
@@ -83,13 +78,8 @@ CREATE TABLE `sys_menu`
 # 创建角色菜单权限关系表
 CREATE TABLE `sys_role_menu`
 (
-    `id`          bigint(20) NOT NULL AUTO_INCREMENT AUTO_INCREMENT COMMENT '主键ID',
     `role_id`     bigint(20) NOT NULL DEFAULT '0' COMMENT '角色ID',
     `menu_id`     bigint(11) NOT NULL DEFAULT '0' COMMENT '菜单ID',
-    `create_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` timestamp  NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-    `is_deleted`  tinyint(3) NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）',
-    PRIMARY KEY (`id`),
     KEY `idx_role_id` (`role_id`),
     KEY `idx_menu_id` (`menu_id`)
 ) ENGINE = InnoDB

@@ -1,5 +1,6 @@
 package com.chen.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
@@ -10,6 +11,8 @@ import com.chen.common.constant.UserConstants;
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysUser;
 import com.chen.model.entity.system.SysUserRole;
+import com.chen.service.exception.ServiceException;
+import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import com.chen.service.page.TableDataInfo;
 import com.chen.system.mapper.SysUserMapper;
 import com.chen.system.mapper.SysUserRoleMapper;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -39,7 +43,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
 
     @Override
     public SysUser selectUserById(Long userId) {
-        return baseMapper.selectById(userId);
+        return baseMapper.selectUserById(userId);
     }
 
     @Override
@@ -78,13 +82,64 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     }
 
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public int insertUser(SysUser user) {
         // 新增用户信息
         int rows = baseMapper.insert(user);
         // 新增用户与角色信息
         this.insertUserRole(user.getId(), user.getRoleIds());
         return rows;
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int updateUser(SysUser user) {
+        Long userId = user.getId();
+        // 删除 用户-角色关联关系
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId,userId));
+        // 新增 用户-角色关联关系
+        insertUserRole(user.getId(), user.getRoleIds());
+        // 修改用户信息
+        return baseMapper.updateById(user);
+    }
+
+    @Override
+    public void checkUserAllowed(SysUser user) {
+        if (ObjectUtil.isNotNull(user.getId()) && user.isAdmin()) {
+            throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(),"不允许操作管理员用户");
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public int deleteUserByIds(Long[] userIds) {
+        // 将 用户ID数组 转换成 用户ID集合
+        List<Long> userIdList = Arrays.asList(userIds);
+        // 判断当前用户ID集合中是否包含管理员用户，不允许操作管理员用户
+        userIdList.forEach(userId -> checkUserAllowed(new SysUser(userId)));
+        // 删除 用户-角色关联关系
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(CollUtil.isNotEmpty(userIdList),SysUserRole::getUserId,userIdList));
+        // 批量删除用户信息
+        return baseMapper.deleteBatchIds(userIdList);
+    }
+
+    @Override
+    public int resetPwd(SysUser user) {
+        return baseMapper.updateById(user);
+    }
+
+    @Override
+    public int updateUserStatus(SysUser user) {
+        return baseMapper.updateById(user);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void insertUserAuth(Long userId, Long[] roleIds) {
+        // 根据用户ID删除全部 用户-角色关联关系
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId,userId));
+        // 新增 用户-角色关联关系
+        this.insertUserRole(userId,roleIds);
     }
 
     /**

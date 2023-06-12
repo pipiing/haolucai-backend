@@ -70,5 +70,10 @@
         where u.is_deleted = 0 and u.user_name = #{userName}
     </select>
 
+    <select id="selectUserById" resultMap="SysUserResult">
+        <include refid="selectUserVo"/>
+        where u.is_deleted = 0 and u.id = #{userId}
+    </select>
+
 
 </mapper>

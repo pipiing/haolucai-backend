@@ -5,17 +5,12 @@
 <mapper namespace="com.chen.system.mapper.SysUserRoleMapper">
 
     <resultMap id="BaseResultMap" type="com.chen.model.entity.system.SysUserRole">
-            <id property="id" column="id" jdbcType="BIGINT"/>
             <result property="userId" column="user_id" jdbcType="BIGINT"/>
             <result property="roleId" column="role_id" jdbcType="BIGINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-        id,user_id,role_id,
-        create_time,update_time,is_deleted
+        user_id,role_id
     </sql>
 
 

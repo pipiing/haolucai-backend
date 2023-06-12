@@ -34,8 +34,8 @@
                  left join sys_role_menu srm on m.id = srm.menu_id
                  left join sys_user_role sur on srm.role_id = sur.role_id
                  left join sys_role r on r.id = sur.role_id
-        where m.status = '1'
-          and r.status = '1'
+        where m.status = 1
+          and r.status = 1
           and sur.user_id = #{userId}
     </select>
 

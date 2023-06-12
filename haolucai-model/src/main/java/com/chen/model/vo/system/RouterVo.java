@@ -16,10 +16,22 @@ import java.util.List;
 public class RouterVo {
 
     /**
+     * 唯一标识
+     */
+    @ApiModelProperty("唯一标识")
+    private Long key;
+
+    /**
      * 路由名字
      */
     @ApiModelProperty("路由名字")
     private String name;
+
+    /**
+     * 图标
+     */
+    @ApiModelProperty("图标")
+    private String icon;
 
     /**
      * 路由地址
@@ -33,23 +45,6 @@ public class RouterVo {
     @ApiModelProperty("组件地址")
     private String component;
 
-    /**
-     * 路由参数：如 {"id": 1, "name": "ry"}
-     */
-    @ApiModelProperty("路由参数")
-    private String query;
-
-    /**
-     * 当你一个路由下面的 children 声明的路由大于1个时，自动会变成嵌套的模式--如组件页面
-     */
-    @ApiModelProperty("是否直接展示子路由")
-    private Boolean alwaysShow;
-
-    /**
-     * 其他元素
-     */
-    @ApiModelProperty("其他元素")
-    private MetaVo meta;
 
     /**
      * 子路由

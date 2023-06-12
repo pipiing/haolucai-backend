@@ -11,13 +11,13 @@ import java.util.List;
 * @createDate 2023-05-25 09:32:54
 * @Entity com.chen.model.entity.system.SysRole
 */
-public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper,SysRole,SysRolew> {
+public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper,SysRole,SysRole> {
 
     /**
-     * 根据用户ID查询角色权限列表
+     * 根据用户ID查询角色对象集合
      *
      * @param userId 用户ID
-     * @return {@link List }<{@link SysRole }> 角色权限列表
+     * @return {@link List }<{@link SysRole }> 角色对象集合
      */
     List<SysRole> selectRolePermissionByUserId(Long userId);
 }

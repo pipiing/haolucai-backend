@@ -1,7 +1,9 @@
 package com.chen.system.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.chen.common.constant.UserConstants;
 import com.chen.common.utils.StreamUtils;
 import com.chen.model.entity.system.SysMenu;
 import com.chen.model.vo.system.RouterVo;
@@ -52,12 +54,20 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
         List<RouterVo> routers = new LinkedList<>();
         for (SysMenu menu : menus) {
             RouterVo router = new RouterVo();
+            router.setKey(menu.getId());
             router.setName(menu.getName());
             router.setPath(menu.getPath());
+            router.setIcon(menu.getIcon());
             router.setComponent(menu.getComponent());
-            // 只有目录才需要设置是否自动展开
+            // 设置子路由，每个子路由都需要构建成RouterVo
+            List<SysMenu> cMenus = menu.getChildren();
+            // 子路由不为空 且 属于目录
+            if (CollUtil.isNotEmpty(cMenus) && UserConstants.TYPE_DIR.equals(menu.getType())) {
+                router.setChildren(buildMenus(cMenus));
+            }
+            routers.add(router);
         }
-        return null;
+        return routers;
     }
 
 
@@ -127,8 +137,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
         // 获取子节点列表，判断大小是否 大于0
         return getChildList(list, pItem).size() > 0;
     }
-
-
 }
 
 

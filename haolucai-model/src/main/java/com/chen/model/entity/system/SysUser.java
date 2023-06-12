@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -16,11 +17,13 @@ import java.util.List;
 
 /**
  * 用户信息表
+ *
  * @TableName sys_user
  */
 @Data
+@NoArgsConstructor
 @ApiModel(description = "用户")
-@TableName(value ="sys_user")
+@TableName(value = "sys_user")
 @EqualsAndHashCode(callSuper = true)
 public class SysUser extends BaseEntity {
 
@@ -124,6 +127,10 @@ public class SysUser extends BaseEntity {
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
+
+    public SysUser(Long userId) {
+        this.setId(userId);
+    }
 
     public boolean isAdmin() {
         return UserConstants.ADMIN_ID.equals(this.getId());

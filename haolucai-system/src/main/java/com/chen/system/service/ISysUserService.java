@@ -53,4 +53,51 @@ public interface ISysUserService extends IService<SysUser> {
      * @return int 插入成功数目
      */
     int insertUser(SysUser user);
+
+    /**
+     * 修改用户信息
+     *
+     * @param user 用户信息
+     * @return int 修改成功数目
+     */
+    int updateUser(SysUser user);
+
+    /**
+     * 校验用户是否允许操作
+     *
+     * @param user 用户信息
+     */
+    void checkUserAllowed(SysUser user);
+
+    /**
+     * 根据用户ID组批量删除用户信息
+     *
+     * @param userIds 需要删除的用户ID组
+     * @return int 删除成功数目
+     */
+    int deleteUserByIds(Long[] userIds);
+
+    /**
+     * 重置用户密码
+     *
+     * @param user 用户信息
+     * @return int 修改成功数目
+     */
+    int resetPwd(SysUser user);
+
+    /**
+     * 修改用户状态
+     *
+     * @param user 用户信息
+     * @return int 修改成功数目
+     */
+    int updateUserStatus(SysUser user);
+
+    /**
+     * 用户授权角色
+     *
+     * @param userId  用户ID
+     * @param roleIds 角色ID组
+     */
+    void insertUserAuth(Long userId, Long[] roleIds);
 }

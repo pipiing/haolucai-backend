@@ -1,27 +1,27 @@
 package com.chen.model.entity.system;
 
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.chen.model.entity.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * 角色菜单
  * @TableName sys_role_menu
  */
 @Data
-@EqualsAndHashCode(callSuper = true)
 @ApiModel(description = "角色和菜单关联")
 @TableName(value ="sys_role_menu")
-public class SysRoleMenu extends BaseEntity {
+public class SysRoleMenu {
 
     /**
      * 角色ID
      */
     @ApiModelProperty(value = "角色ID")
+    @TableId(type = IdType.INPUT)
     @TableField(value = "role_id")
     private Long roleId;
 
@@ -32,6 +32,4 @@ public class SysRoleMenu extends BaseEntity {
     @TableField(value = "menu_id")
     private Long menuId;
 
-
-    private static final long serialVersionUID = 1L;
 }

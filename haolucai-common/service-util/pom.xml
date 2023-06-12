@@ -18,7 +18,8 @@
             <groupId>com.chen</groupId>
             <artifactId>common-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
-        </dependency><!-- common-util依赖 -->
+        </dependency>
+        <!-- common-model依赖 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-model</artifactId>

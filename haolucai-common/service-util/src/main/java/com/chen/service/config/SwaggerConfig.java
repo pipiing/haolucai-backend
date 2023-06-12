@@ -1,10 +1,11 @@
 package com.chen.service.config;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -17,9 +18,13 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
  * @author Pipiing
  * @date 2023/05/21 21:45:46
  */
+@Slf4j
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+
+    @Value("${sa-token.token-name}")
+    private String tokenName;
 
     private final Contact contact = new Contact("Pipiing", "http://https://github.com/pipiing", "1292379046@qq.com");
 
@@ -30,7 +35,6 @@ public class SwaggerConfig {
                 .apiInfo(webApiInfo())
                 .enable(true)
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.chen"))
                 // 只显示api路径下的页面
                 .paths(PathSelectors.regex("/api/.*"))
                 .build();

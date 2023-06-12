@@ -39,7 +39,7 @@
 
     <select id="selectRolePermissionByUserId" resultType="com.chen.model.entity.system.SysRole">
         <include refid="selectRoleVo"/>
-        where r.is_deleted = '0' and sur.user_id = #{userId}
+        where r.is_deleted = 0 and sur.user_id = #{userId}
     </select>
 
 
