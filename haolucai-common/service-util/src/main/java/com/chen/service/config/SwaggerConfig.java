@@ -1,73 +1,105 @@
 package com.chen.service.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
+import cn.hutool.core.util.StrUtil;
+import com.chen.service.config.properties.SwaggerProperties;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.Paths;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import lombok.RequiredArgsConstructor;
+import org.springdoc.core.SpringDocConfiguration;
+import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.builders.ApiInfoBuilder;
-import springfox.documentation.builders.PathSelectors;
-import springfox.documentation.service.ApiInfo;
-import springfox.documentation.service.Contact;
-import springfox.documentation.spi.DocumentationType;
-import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
- * Swagger配置
+ * Swagger 文档配置
  *
- * @author Pipiing
- * @date 2023/05/21 21:45:46
+ * @author Lion Li
  */
-@Slf4j
+@RequiredArgsConstructor
 @Configuration
-@EnableSwagger2
+@AutoConfigureBefore(SpringDocConfiguration.class)
+@ConditionalOnProperty(name = "springdoc.api-docs.enabled", havingValue = "true", matchIfMissing = true)
 public class SwaggerConfig {
 
-    @Value("${sa-token.token-name}")
-    private String tokenName;
-
-    private final Contact contact = new Contact("Pipiing", "http://https://github.com/pipiing", "1292379046@qq.com");
+    private final SwaggerProperties swaggerProperties;
+    private final ServerProperties serverProperties;
 
     @Bean
-    public Docket webApiConfig() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("webApi")
-                .apiInfo(webApiInfo())
-                .enable(true)
-                .select()
-                // 只显示api路径下的页面
-                .paths(PathSelectors.regex("/api/.*"))
-                .build();
+    @ConditionalOnMissingBean(OpenAPI.class)
+    public OpenAPI openApi() {
+        OpenAPI openApi = new OpenAPI();
+        // 文档基本信息
+        SwaggerProperties.InfoProperties infoProperties = swaggerProperties.getInfo();
+        Info info = convertInfo(infoProperties);
+        openApi.info(info);
+        // 扩展文档信息
+        openApi.externalDocs(swaggerProperties.getExternalDocs());
+        openApi.tags(swaggerProperties.getTags());
+        openApi.paths(swaggerProperties.getPaths());
+        openApi.components(swaggerProperties.getComponents());
+        Set<String> keySet = swaggerProperties.getComponents().getSecuritySchemes().keySet();
+        List<SecurityRequirement> list = new ArrayList<>();
+        SecurityRequirement securityRequirement = new SecurityRequirement();
+        keySet.forEach(securityRequirement::addList);
+        list.add(securityRequirement);
+        openApi.security(list);
+
+        return openApi;
     }
 
+    private Info convertInfo(SwaggerProperties.InfoProperties infoProperties) {
+        Info info = new Info();
+        info.setTitle(infoProperties.getTitle());
+        info.setDescription(infoProperties.getDescription());
+        info.setContact(infoProperties.getContact());
+        info.setLicense(infoProperties.getLicense());
+        info.setVersion(infoProperties.getVersion());
+        return info;
+    }
+
+    /**
+     * 对已经生成好的 OpenApi 进行自定义操作
+     */
     @Bean
-    public Docket adminApiConfig() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .groupName("adminApi")
-                .apiInfo(adminApiInfo())
-                .select()
-                // 只显示admin路径下的页面
-                .paths(PathSelectors.regex("/admin/.*"))
-                .build();
+    public OpenApiCustomiser openApiCustomiser() {
+        String contextPath = serverProperties.getServlet().getContextPath();
+        String finalContextPath;
+        if (StrUtil.isBlank(contextPath) || "/".equals(contextPath)) {
+            finalContextPath = "";
+        } else {
+            finalContextPath = contextPath;
+        }
+        // 对所有路径增加前置上下文路径
+        return openApi -> {
+            Paths oldPaths = openApi.getPaths();
+            if (oldPaths instanceof PlusPaths) {
+                return;
+            }
+            PlusPaths newPaths = new PlusPaths();
+            oldPaths.forEach((k,v) -> newPaths.addPathItem(finalContextPath + k, v));
+            openApi.setPaths(newPaths);
+        };
     }
 
-    private ApiInfo webApiInfo() {
-        return new ApiInfoBuilder()
-                .title("网站-API文档")
-                .description("本文档描述了网站微服务接口定义")
-                .version("1.0")
-                .contact(contact)
-                .build();
+    /**
+     * 单独使用一个类便于判断 解决springdoc路径拼接重复问题
+     *
+     * @author Lion Li
+     */
+    static class PlusPaths extends Paths {
+        public PlusPaths() {
+            super();
+        }
     }
-
-    private ApiInfo adminApiInfo() {
-        return new ApiInfoBuilder()
-                .title("好鲁菜后台管理系统-API文档")
-                .description("本文档描述了后台管理系统接口定义")
-                .version("1.0")
-                .contact(contact)
-                .build();
-    }
-
 
 }

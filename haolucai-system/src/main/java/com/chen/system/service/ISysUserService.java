@@ -20,7 +20,6 @@ public interface ISysUserService extends IService<SysUser> {
      */
     SysUser selectUserById(Long userId);
 
-
     /**
      * 获取用户分页信息列表
      *
@@ -100,4 +99,20 @@ public interface ISysUserService extends IService<SysUser> {
      * @param roleIds 角色ID组
      */
     void insertUserAuth(Long userId, Long[] roleIds);
+
+    /**
+     * 根据条件分页查询已分配用户角色列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    TableDataInfo<SysUser> selectAssignedList(SysUser user, PageQuery pageQuery);
+
+    /**
+     * 根据条件分页查询未分配用户角色列表
+     *
+     * @param user 用户信息
+     * @return 用户信息集合信息
+     */
+    TableDataInfo<SysUser> selectUnAssignedList(SysUser user, PageQuery pageQuery);
 }

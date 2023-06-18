@@ -1,7 +1,8 @@
 package com.chen.service.exception;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.chen.service.exception.enums.GlobalErrorCodeConstants;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,20 +13,20 @@ import lombok.EqualsAndHashCode;
  * @date 2022/11/04 16:58:41
  */
 @Data
-@ApiModel("业务逻辑异常")
+@Tag(name="业务逻辑异常")
 @EqualsAndHashCode(callSuper = true)
 public final class ServiceException extends RuntimeException {
 
     /**
      * 业务错误码
      */
-    @ApiModelProperty("业务错误码")
+    @Schema(name="业务错误码")
     private Integer code;
 
     /**
      * 错误提示
      */
-    @ApiModelProperty("错误提示")
+    @Schema(name="错误提示")
     private String message;
 
     /**
@@ -37,6 +38,11 @@ public final class ServiceException extends RuntimeException {
     public ServiceException(ErrorCode errorCode) {
         this.code = errorCode.getCode();
         this.message = errorCode.getMsg();
+    }
+
+    public ServiceException(String message) {
+        this.code = GlobalErrorCodeConstants.ERROR.getCode();
+        this.message = message;
     }
 
     public ServiceException(Integer code, String message) {

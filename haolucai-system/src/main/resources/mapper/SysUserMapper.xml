@@ -75,5 +75,32 @@
         where u.is_deleted = 0 and u.id = #{userId}
     </select>
 
+    <select id="selectAssignedList" resultMap="SysUserResult">
+        select distinct u.id,
+                        u.user_name,
+                        u.nick_name,
+                        u.phone,
+                        u.status,
+                        u.create_time
+        from sys_user u
+                 left join sys_user_role sur on u.id = sur.user_id
+                 left join sys_role r on r.id = sur.role_id
+            ${ew.getCustomSqlSegment}
+    </select>
+
+    <select id="selectUnAssignedList" resultMap="SysUserResult">
+        select distinct u.id,
+                        u.user_name,
+                        u.nick_name,
+                        u.phone,
+                        u.status,
+                        u.create_time
+        from sys_user u
+                 left join sys_user_role sur on u.id = sur.user_id
+                 left join sys_role r on r.id = sur.role_id
+            ${ew.getCustomSqlSegment}
+    </select>
+
+
 
 </mapper>

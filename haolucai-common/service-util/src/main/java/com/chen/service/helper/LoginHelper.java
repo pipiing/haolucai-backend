@@ -53,7 +53,7 @@ public class LoginHelper {
     }
 
     /**
-     * 获取用户(多级缓存)
+     * 获取登录用户信息（多级缓存）
      */
     public static LoginUser getLoginUser() {
         // 从Sa-Token的Storage中获取，如果获取不到，则从Session中获取
@@ -69,7 +69,15 @@ public class LoginHelper {
     }
 
     /**
-     * 获取用户ID
+     * 获取登录用户信息（基于token）
+     */
+    public static LoginUser getLoginUser(String token) {
+        // 基于Token获取指定Token-Session
+        return (LoginUser) StpUtil.getTokenSessionByToken(token).get(LOGIN_USER_KEY);
+    }
+
+    /**
+     * 获取登录用户ID
      */
     public static Long getUserId() {
         Long userId;
@@ -86,7 +94,7 @@ public class LoginHelper {
     }
 
     /**
-     * 获取用户账户（用户名）
+     * 获取登录用户账户（用户名）
      *
      * @return {@link String } 用户名
      */
@@ -104,7 +112,11 @@ public class LoginHelper {
         return UserConstants.ADMIN_ID.equals(userId);
     }
 
-
-
-
+    /**
+     * 设置用户数据(多级缓存)
+     * 将用户信息 存入token-session缓存（Redis）
+     */
+    public static void setLoginUser(LoginUser loginUser) {
+        StpUtil.getTokenSession().set(LOGIN_USER_KEY, loginUser);
+    }
 }

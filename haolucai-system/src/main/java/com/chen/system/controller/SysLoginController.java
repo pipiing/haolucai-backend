@@ -12,8 +12,8 @@ import com.chen.service.result.CommonResult;
 import com.chen.system.service.ISysMenuService;
 import com.chen.system.service.ISysUserService;
 import com.chen.system.service.SysLoginService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@Api(tags = "登录验证接口")
+@Tag(name = "登录验证接口")
 @Validated
 @RestController
 @RequestMapping("/admin")
@@ -46,7 +46,7 @@ public class SysLoginController extends BaseController {
      * @param loginUserDTO 登录信息
      */
     @SaIgnore
-    @ApiOperation("用户登陆")
+    @Operation(summary ="用户登陆")
     @PostMapping("/login")
     public CommonResult<Map<String, Object>> login(@Validated @RequestBody LoginUserDTO loginUserDTO) {
         Map<String, Object> ajax = new HashMap<>();
@@ -59,7 +59,7 @@ public class SysLoginController extends BaseController {
     /**
      * 退出登录（注销）
      */
-    @ApiOperation("用户注销")
+    @Operation(summary ="用户注销")
     @PostMapping("/logout")
     public CommonResult<String> logout() {
         sysLoginService.logout();
@@ -70,7 +70,7 @@ public class SysLoginController extends BaseController {
     /**
      * 获取用户信息
      */
-    @ApiOperation("获取用户信息")
+    @Operation(summary ="获取用户信息")
     @GetMapping("/getInfo")
     public CommonResult<Map<String, Object>> getInfo() {
         // Sa-Token 从缓存中获取 登录用户信息
@@ -90,7 +90,7 @@ public class SysLoginController extends BaseController {
     /**
      * 获取路由信息
      */
-    @ApiOperation("获取路由信息")
+    @Operation(summary ="获取路由信息")
     @GetMapping("/getRouters")
     public CommonResult<List<RouterVo>> getRouters() {
         // 获取当前登录用户ID

@@ -15,9 +15,9 @@ import com.chen.service.page.TableDataInfo;
 import com.chen.service.result.CommonResult;
 import com.chen.system.service.ISysRoleService;
 import com.chen.system.service.ISysUserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +33,7 @@ import java.util.Map;
  * @date 2023/5/22 15:03
  */
 @Slf4j
-@Api(tags = "用户管理接口")
+@Tag(name = "用户管理接口")
 @Validated
 @RestController
 @RequestMapping("/admin/system/user")
@@ -49,11 +49,11 @@ public class SysUserController extends BaseController {
     /**
      * 获取用户信息条件查询分页列表
      *
-     * @param user      用户信息
+     * @param user      用户条件查询参数
      * @param pageQuery 分页条件查询
-     * @return {@link CommonResult }<{@link TableDataInfo }<{@link SysUser }>> 表格分页数据对象
+     * @return {@link CommonResult }<{@link TableDataInfo }<{@link SysUser }>> 用户表格分页数据对象
      */
-    @ApiOperation("获取用户列表")
+    @Operation(summary ="获取用户列表")
     @SaCheckPermission("system:user:list")
     @GetMapping("/list")
     public CommonResult<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
@@ -67,11 +67,11 @@ public class SysUserController extends BaseController {
      * @param userId 用户ID
      * @return {@link CommonResult }<{@link SysUser }> 用户详细信息
      */
-    @ApiOperation("根据用户ID获取用户详细信息")
+    @Operation(summary ="根据用户ID获取用户详细信息")
     @GetMapping("/query/{userId}")
     @SaCheckPermission("system:user:query")
     public CommonResult<Map<String, Object>> queryUserInfo(
-            @PathVariable @ApiParam(name = "userId", value = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId
+            @PathVariable @Parameter(name = "userId", description = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId
     ) {
         Map<String, Object> ajax = new HashMap<>();
         // 获取全部角色信息
@@ -92,7 +92,7 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @ApiOperation("新增用户信息")
+    @Operation(summary ="新增用户信息")
     @PostMapping("/add")
     @SaCheckPermission("system:user:add")
     public CommonResult<Void> add(@Validated @RequestBody SysUser user) {
@@ -111,7 +111,7 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @ApiOperation("修改用户信息")
+    @Operation(summary ="修改用户信息")
     @PutMapping("/edit")
     @SaCheckPermission("system:user:edit")
     public CommonResult<Void> edit(@Validated @RequestBody SysUser user) {
@@ -122,8 +122,6 @@ public class SysUserController extends BaseController {
         } else if (UserConstants.NOT_UNIQUE.equals(sysUserService.checkPhoneUnique(user))) {
             return CommonResult.error("修改用户[" + user.getPhone() + "]失败，手机号码已存在");
         }
-        // 将修改用户 强制注销，重新获取权限
-//        StpUtil.logout(user.getId());
         return toAjax(sysUserService.updateUser(user));
     }
 
@@ -132,11 +130,11 @@ public class SysUserController extends BaseController {
      *
      * @param userIds 用户ID组
      */
-    @ApiOperation("删除用户信息")
+    @Operation(summary ="删除用户信息")
     @DeleteMapping("/remove/{userIds}")
     @SaCheckPermission("system:user:remove")
     public CommonResult<Void> remove(
-            @PathVariable @ApiParam(name = "userIds", value = "用户ID组") Long[] userIds
+            @PathVariable @Parameter(name = "userIds", description = "用户ID组") Long[] userIds
     ) {
         // 判断是否包含当前用户，当前用户不能被删除
         if (ArrayUtil.contains(userIds, this.getUserId())) {
@@ -150,7 +148,7 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @ApiOperation("重置用户密码")
+    @Operation(summary ="重置用户密码")
     @PutMapping("/resetPwd")
     @SaCheckPermission("system:user:resetPwd")
     public CommonResult<Void> resetPwd(@RequestBody SysUser user) {
@@ -165,7 +163,7 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @ApiOperation("修改用户状态")
+    @Operation(summary ="修改用户状态")
     @PutMapping("/changeStatus")
     @SaCheckPermission("system:user:edit")
     public CommonResult<Void> changeStatus(@RequestBody SysUser user) {
@@ -178,11 +176,11 @@ public class SysUserController extends BaseController {
      *
      * @param userId 用户ID
      */
-    @ApiOperation("根据用户ID获取授权角色")
+    @Operation(summary ="根据用户ID获取授权角色")
     @GetMapping("/query/authRole/{userId}")
     @SaCheckPermission("system:user:query")
     public CommonResult<Map<String, Object>> queryAuthRole(
-            @PathVariable @ApiParam(name = "userId", value = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId) {
+            @PathVariable @Parameter(name = "userId", description = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId) {
         // 根据用户ID获取用户信息
         SysUser user = sysUserService.selectUserById(userId);
         // 根据用户ID获取授权角色信息
@@ -200,12 +198,12 @@ public class SysUserController extends BaseController {
      * @param userId  用户ID
      * @param roleIds 角色ID组
      */
-    @ApiOperation("用户授权角色")
+    @Operation(summary ="用户授权角色")
     @PutMapping("/authRole")
     @SaCheckPermission("system:user:edit")
     public CommonResult<Void> insertAuthRole(
-            @ApiParam(name = "userId", value = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId,
-            @ApiParam(name = "roleIds", value = "角色ID组") Long[] roleIds
+            @Parameter(name = "userId", description = "用户ID", required = true) @NotNull(message = "用户ID不能为空") Long userId,
+            @Parameter(name = "roleIds", description = "角色ID组") Long[] roleIds
     ) {
         sysUserService.insertUserAuth(userId, roleIds);
         return CommonResult.success();

@@ -1,6 +1,6 @@
 package com.chen.service.exception;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
  * 服务器异常 Exception
  */
 @Data
-@ApiModel("服务器异常类")
+@Tag(name="服务器异常类")
 @EqualsAndHashCode(callSuper = true)
 public final class ServerException extends RuntimeException {
 

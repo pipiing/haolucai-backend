@@ -11,18 +11,18 @@ import com.chen.common.utils.RedisUtils;
 import com.chen.model.dto.system.RoleDTO;
 import com.chen.model.entity.system.LoginUser;
 import com.chen.model.entity.system.SysUser;
-import com.chen.model.mapstruct.system.SysRoleMapper;
 import com.chen.service.exception.ServiceException;
 import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import com.chen.service.helper.LoginHelper;
+import com.chen.system.convert.SysRoleConvert;
 import com.chen.system.mapper.SysUserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -40,7 +40,7 @@ public class SysLoginService {
     private SysUserMapper sysUserMapper;
 
     @Autowired
-    private SysRoleMapper mapStructRoleMapper;
+    private SysRoleConvert sysRoleConvert;
 
     @Autowired
     private SysPermissionService sysPermissionService;
@@ -123,7 +123,7 @@ public class SysLoginService {
         loginUser.setRolePermission(sysPermissionService.getRolePermission(user));
         // 将 SysRole对象 转换成 RoleDTO对象
         List<RoleDTO> roles = user.getRoles().stream()
-                .map(role -> mapStructRoleMapper.roleToRoleDTO(role))
+                .map(role -> sysRoleConvert.roleToRoleDTO(role))
                 .collect(Collectors.toList());
         loginUser.setRoles(roles);
         return loginUser;
@@ -139,7 +139,7 @@ public class SysLoginService {
         String errorKey = CacheConstants.PWD_ERR_CNT_KEY + userName;
 
         // 从Redis中获取用户登录错误次数
-        Integer errorNumber = redisUtils.getCacheObject(errorKey);
+        Integer errorNumber = RedisUtils.getCacheObject(errorKey);
 
         // 锁定时间内登录，禁止登录
         if (ObjectUtil.isNotNull(errorNumber) && errorNumber.equals(maxRetryCount)) {
@@ -152,17 +152,17 @@ public class SysLoginService {
             errorNumber = ObjectUtil.isNull(errorNumber) ? 1 : errorNumber + 1;
             // 达到规定错误次数 则锁定登录
             if (errorNumber.equals(maxRetryCount)) {
-                redisUtils.setCacheObject(errorKey, errorNumber, lockTime, TimeUnit.MINUTES);
+                RedisUtils.setCacheObject(errorKey, errorNumber, Duration.ofMinutes(lockTime));
                 throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), String.format("密码输入错误%s次，帐户锁定%s分钟", maxRetryCount, lockTime));
             } else {
                 // 未达到规定错误次数 则递增
-                redisUtils.setCacheObject(errorKey, errorNumber);
+                RedisUtils.setCacheObject(errorKey, errorNumber);
                 throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), String.format("密码输入错误%s次", errorNumber));
             }
         }
 
         // 登录成功 清空错误次数
-        redisUtils.deleteObject(errorKey);
+        RedisUtils.deleteObject(errorKey);
     }
 
 

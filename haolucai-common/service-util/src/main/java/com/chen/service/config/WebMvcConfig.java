@@ -3,6 +3,8 @@ package com.chen.service.config;
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
 import com.chen.common.convert.JacksonObjectMapper;
+import com.chen.service.config.properties.SecurityProperties;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +27,11 @@ import java.util.List;
  */
 @Slf4j
 @Configuration
+@RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
+
+
+    private final SecurityProperties securityProperties;
 
     /**
      * 扩展MVC框架的 消息转换器
@@ -57,7 +63,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
                 .addPathPatterns("/**")
                 .excludePathPatterns("/admin/login") // 放行登陆接口
-                .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**", "/api-docs/**") // 放行Swagger接口
+                .excludePathPatterns(securityProperties.getExcludes()) // 放行Swagger接口
         ;
     }
 

@@ -4,11 +4,11 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,29 +24,29 @@ public class BaseEntity implements Serializable {
     /**
      * ID
      */
-    @ApiModelProperty("主键ID")
+    @Schema(description="主键ID")
     @TableId(type = IdType.ASSIGN_ID)
     private Long id;
 
     /**
      * 创建时间
      */
-    @ApiModelProperty("创建时间")
+    @Schema(description="创建时间")
     @TableField("create_time")
-    private LocalDateTime createTime;
+    private Date createTime;
 
     /**
      * 更新时间
      */
-    @ApiModelProperty("更新时间")
+    @Schema(description="更新时间")
     @TableField("update_time")
-    private LocalDateTime updateTime;
+    private Date updateTime;
 
     /**
      * 逻辑删除
      */
     @TableLogic
-    @ApiModelProperty("逻辑删除")
+    @Schema(description="逻辑删除")
     @TableField("is_deleted")
     private Integer isDeleted;
 
@@ -54,7 +54,7 @@ public class BaseEntity implements Serializable {
      * 其他参数
      */
     @TableField(exist = false)
-    @ApiModelProperty("其他参数")
+    @Schema(description="其他参数")
     private Map<String, Object> params = new HashMap<>();
 
 }

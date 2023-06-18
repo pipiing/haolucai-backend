@@ -1,7 +1,7 @@
 package com.chen.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -29,7 +29,7 @@ public class TreeEntity<T> extends BaseEntity {
     /**
      * 父菜单ID
      */
-    @ApiModelProperty("父菜单ID")
+    @Schema(description="父菜单ID")
     @TableField(value = "parent_id")
     private Long parentId;
 

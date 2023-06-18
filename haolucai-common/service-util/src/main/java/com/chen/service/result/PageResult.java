@@ -1,7 +1,7 @@
 package com.chen.service.result;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-@ApiModel("分页结果")
+@Tag(name="PageResult",description = "分页结果")
 public final class PageResult<T> implements Serializable {
 
-  @ApiModelProperty(value = "数据", required = true)
+  @Schema(description = "数据", requiredMode = Schema.RequiredMode.REQUIRED)
   private List<T> list;
 
-  @ApiModelProperty(value = "总量", required = true)
+  @Schema(description = "总量", requiredMode = Schema.RequiredMode.REQUIRED)
   private Long total;
 
   public PageResult() {}

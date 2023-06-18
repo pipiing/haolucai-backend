@@ -1,11 +1,17 @@
 package com.chen;
 
 import cn.dev33.satoken.secure.BCrypt;
+import com.chen.common.utils.RedisUtils;
+import com.chen.model.dto.system.RoleDTO;
+import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.LoginUser;
+import com.chen.model.entity.system.SysRole;
 import com.chen.model.entity.system.SysUser;
 import com.chen.service.helper.LoginHelper;
+import com.chen.service.page.TableDataInfo;
+import com.chen.system.convert.SysRoleConvert;
 import com.chen.system.mapper.SysUserMapper;
-import com.chen.system.service.ISysRoleService;
+import com.chen.system.service.ISysUserService;
 import com.chen.system.service.SysPermissionService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -22,20 +28,18 @@ public class HaoLuCaiApplicationTest {
     private SysUserMapper sysUserMapper;
 
     @Autowired
-    private ISysRoleService sysRoleService;
+    private ISysUserService sysUserService;
 
     @Autowired
     private SysPermissionService sysPermissionService;
 
+    @Autowired
+    private SysRoleConvert sysRoleConvert;
+
     @Test
     public void test() {
-        SysUser user = sysUserMapper.selectById(1661200402135846913L);
-        boolean checkpw = BCrypt.checkpw("202428", user.getPassword());
-        if (checkpw) {
-            log.info("密码一致:{}", true);
-        } else {
-            log.info("密码不一致:{}", false);
-        }
+        SysUser user = sysUserMapper.selectById(1L);
+        RedisUtils.setCacheObject("user", user);
     }
 
     @Test
@@ -56,6 +60,34 @@ public class HaoLuCaiApplicationTest {
         Set<String> rolePermission = sysPermissionService.getRolePermission(user);
         log.info("rolePermission:{}", rolePermission);
     }
+
+    @Test
+    public void test5(){
+        SysRole sysRole = new SysRole();
+        sysRole.setRoleName("admin");
+        RoleDTO roleDTO = sysRoleConvert.roleToRoleDTO(sysRole);
+        log.info("RoleDTO:{}", roleDTO);
+    }
+
+    @Test
+    public void test6(){
+        SysUser user = new SysUser();
+        user.setRoleId(1L);
+        user.setStatus(1);
+        TableDataInfo<SysUser> sysUserTableDataInfo = sysUserService.selectAssignedList(user, new PageQuery());
+        log.info("sysUserTableDataInfo:{}", sysUserTableDataInfo);
+    }
+
+    @Test
+    public void test7(){
+        SysUser user = new SysUser();
+        user.setRoleId(1L);
+        user.setStatus(1);
+        TableDataInfo<SysUser> sysUserTableDataInfo = sysUserService.selectUnAssignedList(user, new PageQuery());
+        log.info("sysUserTableDataInfo:{}", sysUserTableDataInfo);
+    }
+
+
 
 
 }

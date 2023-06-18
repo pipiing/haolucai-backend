@@ -8,7 +8,7 @@ import com.chen.service.result.CommonResult;
 /**
  * web层通用数据处理
  *
- * @author Lion Li
+ * @author Pipiing
  */
 public class BaseController {
 

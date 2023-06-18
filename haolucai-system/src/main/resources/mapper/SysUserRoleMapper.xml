@@ -14,4 +14,13 @@
     </sql>
 
 
+    <select id="selectUserIdsByRoleId" resultType="Long">
+        select u.id
+        from sys_user u
+        -- inner join 返回两个表的交集
+                 inner join sys_user_role sur on u.id = sur.user_id
+        where sur.role_id = #{roleId}
+    </select>
+
+
 </mapper>

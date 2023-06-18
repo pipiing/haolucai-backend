@@ -1,6 +1,9 @@
 package com.chen.system.mapper;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.chen.model.entity.system.SysRole;
+import com.chen.model.entity.system.SysUser;
 import com.chen.service.mapper.BaseMapperPlus;
 
 import java.util.List;
@@ -20,6 +23,8 @@ public interface SysRoleMapper extends BaseMapperPlus<SysRoleMapper,SysRole,SysR
      * @return {@link List }<{@link SysRole }> 角色对象集合
      */
     List<SysRole> selectRolePermissionByUserId(Long userId);
+
+
 }
 
 

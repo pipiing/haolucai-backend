@@ -2,7 +2,8 @@ package com.chen.model.entity;
 
 import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,8 +13,8 @@ import java.io.Serializable;
  *
  * @author Lion Li
  */
-
 @Data
+@Tag(name = "PageQuery", description = "分页查询实体类")
 public class PageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -21,25 +22,25 @@ public class PageQuery implements Serializable {
     /**
      * 分页大小
      */
-    @ApiModelProperty("分页大小")
+    @Schema(description = "分页大小")
     private Integer pageSize;
 
     /**
      * 当前页数
      */
-    @ApiModelProperty("当前页数")
+    @Schema(description = "当前页数")
     private Integer pageNum;
 
     /**
      * 排序列
      */
-    @ApiModelProperty("排序列")
+    @Schema(description = "排序列")
     private String orderByColumn;
 
     /**
      * 排序的方向desc或者asc
      */
-    @ApiModelProperty("排序的方向desc或者asc")
+    @Schema(description = "排序的方向desc或者asc")
     private String isAsc;
 
     /**

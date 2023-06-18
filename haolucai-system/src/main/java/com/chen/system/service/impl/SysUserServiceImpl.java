@@ -5,6 +5,7 @@ import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.common.constant.UserConstants;
@@ -18,6 +19,7 @@ import com.chen.system.mapper.SysUserMapper;
 import com.chen.system.mapper.SysUserRoleMapper;
 import com.chen.system.service.ISysUserService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +38,9 @@ import java.util.Map;
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         implements ISysUserService {
+
+    @Autowired
+    private SysUserMapper baseMapper;
 
     @Autowired
     private SysUserRoleMapper sysUserRoleMapper;
@@ -57,7 +62,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         // 获取除了自身以外的与传入userName相等的用户信息
         lambdaQueryWrapper
-                .eq(StrUtil.isNotBlank(user.getUserName()), SysUser::getUserName, user.getUserName())
+                .eq(SysUser::getUserName, user.getUserName())
                 // 修改用户信息时，需执行
                 .ne(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId());
         boolean isExist = baseMapper.exists(lambdaQueryWrapper);
@@ -71,7 +76,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public String checkPhoneUnique(SysUser user) {
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(StrUtil.isNotBlank(user.getPhone()), SysUser::getPhone, user.getPhone())
+        lambdaQueryWrapper.eq(SysUser::getPhone, user.getPhone())
                 .ne(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId());
         boolean isExist = baseMapper.exists(lambdaQueryWrapper);
 
@@ -96,7 +101,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     public int updateUser(SysUser user) {
         Long userId = user.getId();
         // 删除 用户-角色关联关系
-        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId,userId));
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
         // 新增 用户-角色关联关系
         insertUserRole(user.getId(), user.getRoleIds());
         // 修改用户信息
@@ -106,7 +111,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public void checkUserAllowed(SysUser user) {
         if (ObjectUtil.isNotNull(user.getId()) && user.isAdmin()) {
-            throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(),"不允许操作管理员用户");
+            throw new ServiceException(GlobalErrorCodeConstants.ERROR.getCode(), "不允许操作管理员用户");
         }
     }
 
@@ -118,7 +123,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         // 判断当前用户ID集合中是否包含管理员用户，不允许操作管理员用户
         userIdList.forEach(userId -> checkUserAllowed(new SysUser(userId)));
         // 删除 用户-角色关联关系
-        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(CollUtil.isNotEmpty(userIdList),SysUserRole::getUserId,userIdList));
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().in(CollUtil.isNotEmpty(userIdList), SysUserRole::getUserId, userIdList));
         // 批量删除用户信息
         return baseMapper.deleteBatchIds(userIdList);
     }
@@ -137,9 +142,38 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Transactional(rollbackFor = Exception.class)
     public void insertUserAuth(Long userId, Long[] roleIds) {
         // 根据用户ID删除全部 用户-角色关联关系
-        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId,userId));
+        sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
         // 新增 用户-角色关联关系
-        this.insertUserRole(userId,roleIds);
+        this.insertUserRole(userId, roleIds);
+    }
+
+    @Override
+    public TableDataInfo<SysUser> selectAssignedList(SysUser user, PageQuery pageQuery) {
+        QueryWrapper<SysUser> QueryWrapper = new QueryWrapper<>();
+        QueryWrapper.eq("u.is_deleted",UserConstants.USER_NORMAL) // 账号未删除
+                .eq(ObjectUtil.isNotNull(user.getRoleId()),"r.id",user.getRoleId()) // 已分配角色ID
+                .like(StringUtils.isNotBlank(user.getUserName()), "u.user_name", user.getUserName()) // 用户名模糊查询
+                .eq(ObjectUtil.isNotNull(user.getStatus()), "u.status", user.getStatus()) // 账号是否被禁用
+                .like(StringUtils.isNotBlank(user.getPhone()), "u.phone", user.getPhone()) // 手机号码模糊查询
+        ;
+        Page<SysUser> page = baseMapper.selectAssignedList(pageQuery.build(), QueryWrapper);
+        return TableDataInfo.build(page);
+    }
+
+    @Override
+    public TableDataInfo<SysUser> selectUnAssignedList(SysUser user, PageQuery pageQuery) {
+        // 根据角色ID查询拥有该角色的全部用户ID集合
+        List<Long> userIds = sysUserRoleMapper.selectUserIdsByRoleId(user.getRoleId());
+        QueryWrapper<SysUser> QueryWrapper = new QueryWrapper<>();
+        QueryWrapper.eq("u.is_deleted",UserConstants.USER_NORMAL) // 账号未删除
+                // AND (r.id <> ? OR r.id IS NULL) 用于缩小数据范围，先将 非当前roleId 和 roleId==Null 的用户取出
+                .and(w -> w.ne("r.id", user.getRoleId()).or().isNull("r.id"))
+                .notIn(CollUtil.isNotEmpty(userIds),"u.id",userIds) // 将拥有该角色的用户ID全部排除
+                .like(StringUtils.isNotBlank(user.getUserName()), "u.user_name", user.getUserName()) // 用户名模糊查询
+                .like(StringUtils.isNotBlank(user.getPhone()), "u.phone", user.getPhone()) // 手机号码模糊查询
+        ;
+        Page<SysUser> page = baseMapper.selectUnAssignedList(pageQuery.build(), QueryWrapper);
+        return TableDataInfo.build(page);
     }
 
     /**
@@ -153,7 +187,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         Map<String, Object> params = user.getParams();
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper
-                .eq(SysUser::getIsDeleted, UserConstants.USER_NORMAL) // 账号是否被删除
+                .eq(SysUser::getIsDeleted, UserConstants.USER_NORMAL) // 账号未删除
                 .eq(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId()) // 用户ID查询
                 .like(StrUtil.isNotBlank(user.getUserName()), SysUser::getUserName, user.getUserName()) // 用户名模糊查询
                 .eq(ObjectUtil.isNotNull(user.getStatus()), SysUser::getStatus, user.getStatus()) // 账号是否被禁用
@@ -170,7 +204,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
      * 用户-角色 关联关系
      *
      * @param userId  用户ID
-     * @param roleIds 角色ID集合
+     * @param roleIds 角色ID组
      */
     private void insertUserRole(Long userId, Long[] roleIds) {
         if (ArrayUtil.isNotEmpty(roleIds)) {

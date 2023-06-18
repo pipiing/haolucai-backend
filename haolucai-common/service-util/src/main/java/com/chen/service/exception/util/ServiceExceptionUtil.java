@@ -3,8 +3,8 @@ package com.chen.service.exception.util;
 
 import com.chen.service.exception.ErrorCode;
 import com.chen.service.exception.ServiceException;
-import com.google.common.annotations.VisibleForTesting;
 import lombok.extern.slf4j.Slf4j;
+import org.assertj.core.util.VisibleForTesting;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
