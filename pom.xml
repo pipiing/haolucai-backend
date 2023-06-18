@@ -158,13 +158,6 @@
                 <version>${mapstruct.version}</version>
             </dependency>
 
-            <!-- Knife4j增强文档依赖 -->
-<!--            <dependency>-->
-<!--                <groupId>com.github.xiaoymin</groupId>-->
-<!--                <artifactId>knife4j-spring-boot-starter</artifactId>-->
-<!--                <version>${knife4j.version}</version>-->
-<!--            </dependency>-->
-
             <!-- Redisson分布式锁依赖 -->
             <dependency>
                 <groupId>org.redisson</groupId>
