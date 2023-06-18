@@ -16,8 +16,8 @@ CREATE TABLE IF NOT EXISTS `sys_user`
     `open_id`     varchar(255)          DEFAULT NULL COMMENT '微信openId',
     `description` varchar(255)          DEFAULT NULL COMMENT '备注',
     `status`      tinyint(3)            DEFAULT NULL COMMENT '状态(0:停用,1:正常)',
-    `create_time` date     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` date     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `create_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_deleted`  tinyint(3)   NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）',
     PRIMARY KEY (`id`),
     UNIQUE KEY `idx_username` (`user_name`)
@@ -34,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `sys_role`
     `role_sort`   int(4)      NOT NULL COMMENT '显示顺序',
     `status`      char(1)     NOT NULL COMMENT '角色状态（0停用 1正常）',
     `description` varchar(255)         DEFAULT NULL COMMENT '描述',
-    `create_time` date   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` date   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `create_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_deleted`  tinyint(3)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）',
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB
@@ -66,8 +66,8 @@ CREATE TABLE `sys_menu`
     `icon`        varchar(100)         DEFAULT NULL COMMENT '图标',
     `menu_sort`   int(11)              DEFAULT NULL COMMENT '显示顺序',
     `status`      tinyint(4)           DEFAULT NULL COMMENT '状态(0:禁止,1:正常)',
-    `create_time` date   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `update_time` date   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+    `create_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `update_time` datetime   NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
     `is_deleted`  tinyint(3)  NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）',
     PRIMARY KEY (`id`),
     KEY `idx_parent_id` (`parent_id`)
