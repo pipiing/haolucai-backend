@@ -9,6 +9,7 @@ import com.chen.common.utils.StreamUtils;
 import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import com.chen.service.result.CommonResult;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -39,7 +40,17 @@ public class GlobalExceptionHandler {
     public CommonResult<Void> handleRuntimeException(RuntimeException e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',发生未知异常.", requestURI, e);
-        return CommonResult.error(e.getMessage());
+        return CommonResult.error(GlobalErrorCodeConstants.SERVICE_ERROR);
+    }
+
+    /**
+     * 处理请求未找到异常
+     */
+    @ExceptionHandler(NotFoundException.class)
+    public CommonResult<Void> handleNotFoundException(NotFoundException e, HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        log.error("请求地址'{}',未找到.", requestURI, e);
+        return CommonResult.error(GlobalErrorCodeConstants.NOT_FOUND);
     }
 
     /**
@@ -49,7 +60,7 @@ public class GlobalExceptionHandler {
     public CommonResult<Void> handleException(Exception e, HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         log.error("请求地址'{}',发生系统异常.", requestURI, e);
-        return CommonResult.error(e.getMessage());
+        return CommonResult.error(GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR);
     }
 
     /**
