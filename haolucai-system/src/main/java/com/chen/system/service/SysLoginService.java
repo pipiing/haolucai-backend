@@ -131,6 +131,7 @@ public class SysLoginService {
 
     /**
      * 登录校验
+     * Supplier<Boolean> supplier 等价于 Boolean flag结果
      *
      * @param userName 用户名
      * @param supplier 密码校验结果
