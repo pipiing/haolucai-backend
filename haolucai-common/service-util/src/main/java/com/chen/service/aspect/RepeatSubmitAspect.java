@@ -97,10 +97,10 @@ public class RepeatSubmitAspect {
         // 判断 方法返回类型是否属于CommonResult类型
         if (jsonResult instanceof CommonResult) {
             try {
-                // 转换为CommonResult类型，判断是否执行成功
+                // 转换为CommonResult类型，判断是否执行成功，以便于计算下次是否重复提交
                 CommonResult<?> result = (CommonResult<?>) jsonResult;
                 if (CommonResult.isSuccess(result.getCode())) {
-                    // 成功 则直接返回数据给前端
+                    // 成功 则直接返回数据给前端，Redis中仍然存在值
                     return;
                 }
                 // 失败 则删除Redis中的Key
