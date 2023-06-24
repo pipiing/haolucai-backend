@@ -11,6 +11,10 @@
     <packaging>jar</packaging>
 
     <name>common-util</name>
+    <description>
+        公共工具模块
+    </description>
+
 
     <dependencies>
         <!-- SpringMvc依赖 -->

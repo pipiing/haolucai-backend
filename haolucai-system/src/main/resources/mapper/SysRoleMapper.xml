@@ -11,7 +11,9 @@
         <result property="roleSort" column="role_sort" jdbcType="INTEGER"/>
         <result property="status" column="status" jdbcType="CHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
     </resultMap>
@@ -20,7 +22,8 @@
         id
         ,role_name,role_key,
         role_sort,status,description,
-        create_time,update_time,is_deleted
+        create_by,create_time,
+        update_by,update_time,is_deleted
     </sql>
 
     <sql id="selectRoleVo">

@@ -16,7 +16,9 @@
         <result property="openId" column="open_id" jdbcType="VARCHAR"/>
         <result property="description" column="description" jdbcType="VARCHAR"/>
         <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
         <collection property="roles" javaType="java.util.List" resultMap="RoleResult"/>
@@ -35,8 +37,8 @@
         ,user_name,password,
         nick_name,sex,user_type,
         phone,avatar_url,open_id,
-        description,status,create_time,
-        update_time,is_deleted
+        description,status,create_by,create_time,
+        update_by,update_time,is_deleted
     </sql>
 
     <sql id="selectUserVo">
@@ -51,9 +53,10 @@
                u.sex,
                u.open_id,
                u.status,
-               u.is_deleted,
+               u.create_by,
                u.create_time,
                u.description,
+               u.is_deleted,
                r.id,
                r.role_name,
                r.role_key,

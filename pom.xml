@@ -23,6 +23,7 @@
         <module>haolucai-model</module>
         <module>haolucai-admin</module>
         <module>haolucai-system</module>
+        <module>haolucai-oss</module>
     </modules>
 
     <properties>
@@ -39,6 +40,7 @@
         <knife4j.version>3.0.3</knife4j.version>
         <redisson.version>3.20.1</redisson.version>
         <springdoc.version>1.6.15</springdoc.version>
+        <aws-java-sdk-s3.version>1.12.400</aws-java-sdk-s3.version>
     </properties>
 
     <dependencies>
@@ -186,6 +188,13 @@
                 <groupId>org.springdoc</groupId>
                 <artifactId>springdoc-openapi-javadoc</artifactId>
                 <version>${springdoc.version}</version>
+            </dependency>
+
+            <!-- OSS 配置 -->
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${aws-java-sdk-s3.version}</version>
             </dependency>
 
 

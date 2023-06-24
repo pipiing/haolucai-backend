@@ -20,8 +20,8 @@ import java.util.stream.Stream;
  * @date 2022/11/16 10:37:44
  */
 @Slf4j
-@SuppressWarnings(value = {"unchecked", "rawtypes"})
 @Component
+@SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisUtils {
 
 

@@ -2,6 +2,7 @@ package com.chen.model.vo.system;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
  * @author Lion Li
  */
 @Data
+@Tag(name = "RouterVo", description = "路由配置信息")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class RouterVo {
 
