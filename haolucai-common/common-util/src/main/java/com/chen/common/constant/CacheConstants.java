@@ -17,4 +17,9 @@ public interface CacheConstants
      * 防重提交 redis key
      */
     String REPEAT_SUBMIT_KEY = "repeat_submit:";
+
+    /**
+     * OSS配置 redis key
+     */
+    String SYS_OSS_CONFIG = "sys_oss_config";
 }
