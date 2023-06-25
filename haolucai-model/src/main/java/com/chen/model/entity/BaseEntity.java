@@ -13,7 +13,8 @@ import java.util.Map;
  * 基础实体类
  *
  * @author Pipiing
- * @date 2023/05/22 10:24:44
+ * @description
+ * @date 2023/06/25 09:59:06
  */
 @Data
 public class BaseEntity implements Serializable {
