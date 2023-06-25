@@ -17,22 +17,28 @@
     </description>
 
     <dependencies>
-        <!-- model模块 -->
-        <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
         <!-- common模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- model模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- system模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-system</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <!-- oss模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-oss</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 

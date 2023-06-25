@@ -1,6 +1,6 @@
 package com.chen.model.entity.system;
 
-import com.chen.model.dto.system.RoleDTO;
+import com.chen.model.dto.system.SysRoleDTO;
 import lombok.Data;
 import lombok.ToString;
 
@@ -58,7 +58,7 @@ public class LoginUser implements Serializable {
     /**
      * 角色对象
      */
-    private List<RoleDTO> roles;
+    private List<SysRoleDTO> roles;
 
 
 }

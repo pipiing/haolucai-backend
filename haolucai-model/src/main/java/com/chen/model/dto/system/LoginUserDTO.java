@@ -8,13 +8,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * 用户登陆DTO
+ * 用户登陆DTO对象
  *
  * @author Pipiing
  * @date 2023/5/22 16:53
  */
 @Data
-@Tag(name = "LoginUserDTO", description = "用户登陆DTO")
+@Tag(name = "LoginUserDTO", description = "用户登陆DTO对象")
 public class LoginUserDTO {
 
     @NotNull(message = "登陆账号不能为空")

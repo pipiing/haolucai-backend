@@ -16,8 +16,8 @@ import java.io.Serializable;
  */
 @Data
 @NoArgsConstructor
-@Tag(name = "RoleDTO", description = "角色DTO")
-public class RoleDTO implements Serializable {
+@Tag(name = "RoleDTO", description = "角色DTO对象")
+public class SysRoleDTO implements Serializable {
 
     /**
      * 角色ID

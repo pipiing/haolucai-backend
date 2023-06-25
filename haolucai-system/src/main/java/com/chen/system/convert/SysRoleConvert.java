@@ -1,6 +1,6 @@
 package com.chen.system.convert;
 
-import com.chen.model.dto.system.RoleDTO;
+import com.chen.model.dto.system.SysRoleDTO;
 import com.chen.model.entity.system.SysRole;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -8,7 +8,7 @@ import org.mapstruct.Mappings;
 
 /**
  * MapStruct Entity、DTO、VO 互相转换
- * SysRole Convert
+ * 角色转换接口
  *
  * @author Pipiing
  * @description
@@ -20,6 +20,6 @@ public interface SysRoleConvert {
     @Mappings({
             @Mapping(target = "roleId", source = "id")
     })
-    RoleDTO roleToRoleDTO(SysRole role);
+    SysRoleDTO roleToDTO(SysRole role);
 
 }

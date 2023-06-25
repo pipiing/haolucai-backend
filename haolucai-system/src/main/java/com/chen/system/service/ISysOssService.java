@@ -1,8 +1,10 @@
-package com.chen.oss.service;
+package com.chen.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.chen.model.entity.oss.SysOss;
+import com.chen.model.vo.oss.SysOssVo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
 * @author Pipiing
@@ -11,4 +13,12 @@ import com.chen.model.entity.oss.SysOss;
 */
 public interface ISysOssService extends IService<SysOss> {
 
+
+    /**
+     * 文件上传
+     *
+     * @param file 文件
+     * @return {@link SysOssVo } OSS对象存储视图对象
+     */
+    SysOssVo upload(MultipartFile file);
 }

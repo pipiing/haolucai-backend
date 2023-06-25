@@ -26,6 +26,12 @@
             <artifactId>service-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <!-- oss依赖 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-oss</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>com.fasterxml.jackson.datatype</groupId>
             <artifactId>jackson-datatype-jsr310</artifactId>

@@ -8,7 +8,8 @@ import com.chen.common.constant.CacheConstants;
 import com.chen.common.enums.DeviceType;
 import com.chen.common.enums.UserStatus;
 import com.chen.common.utils.RedisUtils;
-import com.chen.model.dto.system.RoleDTO;
+import com.chen.common.utils.StreamUtils;
+import com.chen.model.dto.system.SysRoleDTO;
 import com.chen.model.entity.system.LoginUser;
 import com.chen.model.entity.system.SysUser;
 import com.chen.service.exception.ServiceException;
@@ -24,7 +25,6 @@ import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.util.List;
 import java.util.function.Supplier;
-import java.util.stream.Collectors;
 
 /**
  * 系统登录校验服务
@@ -122,9 +122,7 @@ public class SysLoginService {
         loginUser.setMenuPermission(sysPermissionService.getMenuPermission(user));
         loginUser.setRolePermission(sysPermissionService.getRolePermission(user));
         // 将 SysRole对象 转换成 RoleDTO对象
-        List<RoleDTO> roles = user.getRoles().stream()
-                .map(role -> sysRoleConvert.roleToRoleDTO(role))
-                .collect(Collectors.toList());
+        List<SysRoleDTO> roles = StreamUtils.toList(user.getRoles(), role -> sysRoleConvert.roleToDTO(role));
         loginUser.setRoles(roles);
         return loginUser;
     }

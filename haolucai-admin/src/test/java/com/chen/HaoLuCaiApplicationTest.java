@@ -2,7 +2,7 @@ package com.chen;
 
 import cn.dev33.satoken.secure.BCrypt;
 import com.chen.common.utils.RedisUtils;
-import com.chen.model.dto.system.RoleDTO;
+import com.chen.model.dto.system.SysRoleDTO;
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.LoginUser;
 import com.chen.model.entity.system.SysRole;
@@ -65,8 +65,8 @@ public class HaoLuCaiApplicationTest {
     public void test5(){
         SysRole sysRole = new SysRole();
         sysRole.setRoleName("admin");
-        RoleDTO roleDTO = sysRoleConvert.roleToRoleDTO(sysRole);
-        log.info("RoleDTO:{}", roleDTO);
+        SysRoleDTO sysRoleDTO = sysRoleConvert.roleToDTO(sysRole);
+        log.info("RoleDTO:{}", sysRoleDTO);
     }
 
     @Test

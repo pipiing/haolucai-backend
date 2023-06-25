@@ -10,6 +10,7 @@ import com.chen.model.vo.system.RouterVo;
 import com.chen.service.helper.LoginHelper;
 import com.chen.system.mapper.SysMenuMapper;
 import com.chen.system.service.ISysMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -22,6 +23,9 @@ import java.util.*;
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu>
         implements ISysMenuService {
+
+    @Autowired
+    private SysMenuMapper baseMapper;
 
     @Override
     public Set<String> selectMenuPermsByUserId(Long userId) {

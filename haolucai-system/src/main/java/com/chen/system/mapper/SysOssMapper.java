@@ -1,4 +1,4 @@
-package com.chen.oss.mapper;
+package com.chen.system.mapper;
 
 import com.chen.model.entity.oss.SysOss;
 import com.chen.service.mapper.BaseMapperPlus;

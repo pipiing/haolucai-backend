@@ -1,5 +1,6 @@
 package com.chen.service.exception;
 
+import com.chen.service.exception.enums.GlobalErrorCodeConstants;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,6 +31,11 @@ public final class ServerException extends RuntimeException {
     public ServerException(ErrorCode errorCode) {
         this.code = errorCode.getCode();
         this.message = errorCode.getMsg();
+    }
+
+    public ServerException(String message) {
+        this.code = GlobalErrorCodeConstants.ERROR.getCode();
+        this.message = message;
     }
 
     public ServerException(Integer code, String message) {

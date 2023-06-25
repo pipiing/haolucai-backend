@@ -41,7 +41,7 @@ public final class ServiceException extends RuntimeException {
     }
 
     public ServiceException(String message) {
-        this.code = GlobalErrorCodeConstants.ERROR.getCode();
+        this.code = GlobalErrorCodeConstants.INTERNAL_SERVER_ERROR.getCode();
         this.message = message;
     }
 

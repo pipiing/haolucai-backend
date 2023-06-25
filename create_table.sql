@@ -109,13 +109,14 @@ CREATE TABLE IF NOT EXISTS `sys_oss_config`
     `status`        char         default '1' null comment '是否默认（0=否,1=是）' ,
     `ext`           varchar(255) default ''  null comment '扩展字段' ,
     `create_by`     varchar(64)  default ''  null comment '创建者' ,
-    `create_time`   date                     null comment '创建时间' ,
+    `create_time`   datetime                     null comment '创建时间' ,
     `update_by`     varchar(64)  default ''  null comment '更新者' ,
-    `update_time`   date                     null comment '更新时间' ,
+    `update_time`   datetime                     null comment '更新时间' ,
     `remark`        varchar(500)             null comment '备注' ,
+    `is_deleted`  tinyint(3)   NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）' ,
     PRIMARY KEY ( `id` )
 ) ENGINE = InnoDB
-  DEFAULT CHARSET = utf8mb4 COMMENT '对象存储配置表';
+  DEFAULT CHARSET = utf8mb4 COMMENT 'OSS对象存储配置表';
 
 # 创建OSS对象存储表
 CREATE TABLE IF NOT EXISTS sys_oss
@@ -125,11 +126,12 @@ CREATE TABLE IF NOT EXISTS sys_oss
     `original_name` varchar(255) default ''      not null comment '文件原始名' ,
     `file_suffix`   varchar(10)  default ''      not null comment '文件后缀名' ,
     `url`           varchar(500)                 not null comment 'URL地址' ,
-    `create_time`   datetime                     null comment '创建时间' ,
     `create_by`     varchar(64)  default ''      null comment '上传者' ,
-    `update_time`   datetime                     null comment '更新时间' ,
+    `create_time`   datetime                     null comment '创建时间' ,
     `update_by`     varchar(64)  default ''      null comment '更新者' ,
+    `update_time`   datetime                     null comment '更新时间' ,
     `service`       varchar(20)  default 'minio' not null comment '服务商（默认minio）' ,
+    `is_deleted`  tinyint(3)   NOT NULL DEFAULT '0' COMMENT '删除标记（0:不可用 1:可用）' ,
     PRIMARY KEY ( `id` )
 ) ENGINE = InnoDB
   DEFAULT CHARSET = utf8mb4 comment 'OSS对象存储表';
