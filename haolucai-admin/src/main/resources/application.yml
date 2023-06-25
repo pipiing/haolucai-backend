@@ -11,6 +11,14 @@ mybatis-plus:
 
 
 spring:
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 设置总上传的文件大小
+      max-request-size: 20MB
+  # mvc日期格式处理（前端->后端）
   mvc:
     format:
       date-time: yyyy-MM-dd HH:mm:ss
