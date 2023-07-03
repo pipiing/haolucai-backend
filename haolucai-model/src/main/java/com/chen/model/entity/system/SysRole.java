@@ -1,8 +1,9 @@
 package com.chen.model.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.chen.common.constant.UserConstants;
+import com.chen.common.constant.SystemConstants;
 import com.chen.model.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -88,6 +89,14 @@ public class SysRole extends BaseEntity {
     @TableField(exist = false)
     private boolean flag = false;
 
+    /**
+     * 逻辑删除
+     */
+    @TableLogic
+    @Schema(description = "逻辑删除")
+    @TableField("is_deleted")
+    private Integer isDeleted;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
@@ -97,6 +106,6 @@ public class SysRole extends BaseEntity {
     }
 
     public boolean isAdmin() {
-        return UserConstants.ADMIN_ID.equals(this.getId());
+        return SystemConstants.ADMIN_ID.equals(this.getId());
     }
 }

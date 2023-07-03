@@ -13,28 +13,50 @@
     <name>haolucai-admin</name>
 
     <description>
-        web服务入口
+        后台服务入口
     </description>
 
     <dependencies>
+        <!-- SpringBootTest依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- common模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-common</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <!-- model模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <!-- system模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-system</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
+        <!-- shop模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-shop</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
         <!-- oss模块 -->
         <dependency>
             <groupId>com.chen</groupId>

@@ -3,7 +3,7 @@ package com.chen.system.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.chen.common.constant.CacheConstants;
 import com.chen.common.utils.RedisUtils;
-import com.chen.model.entity.oss.SysOssConfig;
+import com.chen.model.entity.system.SysOssConfig;
 import com.chen.oss.constant.OssConstant;
 import com.chen.system.mapper.SysOssConfigMapper;
 import com.chen.system.service.ISysOssConfigService;

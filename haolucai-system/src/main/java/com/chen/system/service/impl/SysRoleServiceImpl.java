@@ -9,7 +9,7 @@ import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.common.constant.UserConstants;
+import com.chen.common.constant.SystemConstants;
 import com.chen.common.utils.StreamUtils;
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.*;
@@ -40,10 +40,10 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
         implements ISysRoleService {
 
     @Autowired
-    private SysRoleMenuMapper sysRoleMenuMapper;
+    private SysRoleMenuMapper roleMenuMapper;
 
     @Autowired
-    private SysUserRoleMapper sysUserRoleMapper;
+    private SysUserRoleMapper userRoleMapper;
 
 
     @Override
@@ -109,9 +109,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
                 .ne(ObjectUtil.isNotNull(role.getId()), SysRole::getId, role.getId());
         boolean isExist = baseMapper.exists(lambdaQueryWrapper);
         if (isExist) {
-            return UserConstants.NOT_UNIQUE;
+            return SystemConstants.NOT_UNIQUE;
         }
-        return UserConstants.UNIQUE;
+        return SystemConstants.UNIQUE;
     }
 
     @Override
@@ -122,9 +122,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
                 .ne(ObjectUtil.isNotNull(role.getId()), SysRole::getId, role.getId());
         boolean isExist = baseMapper.exists(lambdaQueryWrapper);
         if (isExist) {
-            return UserConstants.NOT_UNIQUE;
+            return SystemConstants.NOT_UNIQUE;
         }
-        return UserConstants.UNIQUE;
+        return SystemConstants.UNIQUE;
     }
 
     @Override
@@ -151,7 +151,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
         // 修改角色信息
         baseMapper.updateById(role);
         // 删除 角色-菜单关联关系
-        sysRoleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().eq(ObjectUtil.isNotNull(roleId), SysRoleMenu::getRoleId, roleId));
+        roleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().eq(ObjectUtil.isNotNull(roleId), SysRoleMenu::getRoleId, roleId));
         // 新增 角色-菜单关联关系
         return this.insertRoleMenu(roleId, role.getMenuIds());
     }
@@ -196,7 +196,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
             }
         }
         // 批量删除 角色-菜单关联关系
-        sysRoleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(CollUtil.isNotEmpty(roleIdList), SysRoleMenu::getRoleId, roleIdList));
+        roleMenuMapper.delete(new LambdaQueryWrapper<SysRoleMenu>().in(CollUtil.isNotEmpty(roleIdList), SysRoleMenu::getRoleId, roleIdList));
         // 批量删除角色
         return baseMapper.deleteBatchIds(roleIdList);
     }
@@ -204,7 +204,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
     @Override
     public int deleteAuthUsers(Long roleId, Long[] userIds) {
         // 批量删除 用户-角色关联关系
-        int rows = sysUserRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
+        int rows = userRoleMapper.delete(new LambdaQueryWrapper<SysUserRole>()
                 .eq(SysUserRole::getRoleId, roleId)
                 .in(ArrayUtil.isNotEmpty(userIds), SysUserRole::getUserId, Arrays.asList(userIds))
         );
@@ -226,7 +226,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
             return sysUserRole;
         });
         if (CollUtil.isNotEmpty(list)) {
-            rows = sysUserRoleMapper.insertBatch(list) ? list.size() : 0;
+            rows = userRoleMapper.insertBatch(list) ? list.size() : 0;
         }
         // 新增成功 强制注销该角色ID的全部用户
         if (rows > 0) {
@@ -242,7 +242,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
      * @return long 角色使用数量
      */
     private long countUserRoleByRoleId(Long roleId) {
-        return sysUserRoleMapper.selectCount(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getRoleId, roleId));
+        return userRoleMapper.selectCount(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getRoleId, roleId));
     }
 
     /**
@@ -264,7 +264,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
                 list.add(sysRoleMenu);
             }
             // 批量插入 角色-菜单关联关系
-            rows = sysRoleMenuMapper.insertBatch(list) ? list.size() : 0;
+            rows = roleMenuMapper.insertBatch(list) ? list.size() : 0;
         }
         return rows;
     }
@@ -278,7 +278,7 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole>
     private LambdaQueryWrapper<SysRole> buildQueryWrapper(SysRole role) {
         Map<String, Object> params = role.getParams();
         LambdaQueryWrapper<SysRole> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.eq(SysRole::getIsDeleted, UserConstants.ROLE_NORMAL)
+        lambdaQueryWrapper.eq(SysRole::getIsDeleted, SystemConstants.ROLE_NORMAL)
                 .eq(ObjectUtil.isNotNull(role.getId()), SysRole::getId, role.getId())
                 .like(StrUtil.isNotBlank(role.getRoleName()), SysRole::getRoleName, role.getRoleName())
                 .eq(StrUtil.isNotBlank(role.getStatus()), SysRole::getStatus, role.getStatus())

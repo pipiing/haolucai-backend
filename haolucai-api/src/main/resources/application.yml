@@ -1,0 +1,129 @@
+# 开发环境配置
+server:
+  # 服务器的HTTP端口，默认为8080
+  port: 8081
+
+# MyBatisPlus配置
+mybatis-plus:
+  configuration:
+    # 更详细的日志输出 会有性能损耗
+    logImpl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+spring:
+  # 文件上传
+  servlet:
+    multipart:
+      # 单个文件大小
+      max-file-size: 10MB
+      # 设置总上传的文件大小
+      max-request-size: 20MB
+  # mvc日期格式处理（前端->后端）
+  mvc:
+    format:
+      date-time: yyyy-MM-dd HH:mm:ss
+  jackson:
+    # 日期格式化
+    date-format: yyyy-MM-dd HH:mm:ss
+    serialization:
+      # 格式化输出
+      indent_output: false
+      # 忽略无法转换的对象
+      fail_on_empty_beans: false
+    deserialization:
+      # 允许对象忽略json中不存在的属性
+      fail_on_unknown_properties: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/hlc-react?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
+    username: root
+    password: 202428
+  # Redis
+  redis:
+    # 地址
+    host: localhost
+    # 端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 0
+    # 密码(如没有密码请注释掉)
+    #password: 202428
+    # 连接超时时间
+    timeout: 10s
+    # 是否开启ssl
+    ssl: false
+
+springdoc:
+  api-docs:
+    # 是否开启接口文档
+    enabled: true
+  swagger-ui:
+    # 持久化认证数据
+    persistAuthorization: true
+
+# Swagger配置
+swagger:
+  info:
+    # 标题
+    title: '标题: 好鲁菜前台商城系统_接口文档'
+    # 描述
+    description: '预制菜电商项目'
+    # 版本
+    version: '版本号: 1.0'
+    # 作者信息
+    contact:
+      name: 'Pipiing'
+      email: '1292379046@qq.com'
+      url: 'https://github.com/pipiing'
+  components:
+    # 鉴权方式配置
+    security-schemes:
+      apiKey:
+        type: APIKEY
+        in: HEADER
+        name: ${sa-token.token-name}
+
+# security配置
+security:
+  # 排除路径
+  excludes:
+    # 静态资源
+    - /*.html
+    - /**/*.html
+    - /**/*.css
+    - /**/*.js
+    # 公共路径
+    - /favicon.ico
+    - /error
+    # swagger 文档配置
+    - /*/api-docs
+    - /*/api-docs/**
+
+# Sa-Token配置信息
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: Authorization
+  # token有效期，单位s 默认30天, -1代表永不过期（设置为1天）
+  timeout: 86400
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒（设置为30分钟）
+  activity-timeout: 1800
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: false
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: true
+  # 是否尝试从header里读取token
+  is-read-header: true
+  # 是否尝试从cookie里读取token
+  is-read-cookie: false
+  # token风格
+  token-style: simple-uuid
+  # 是否输出操作日志
+  is-log: false
+  # token前缀（此时 Sa-Token 便可在读取 Token 时裁剪掉 Bearer，成功获取xxxx-xxxx-xxxx-xxxx）
+  # 由于Cookie中无法存储空格字符，也就意味配置 Token 前缀后，Cookie 鉴权方式将会失效，此时只能将 Token 提交到header里进行传输
+  # token-prefix: Pipiing
+  # jwt秘钥
+  jwt-secret-key: Pipiing
+  # 开启自动续签token
+  auto-renew: true
+
+

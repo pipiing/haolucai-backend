@@ -1,4 +1,4 @@
-package com.chen.system.controller;
+package com.chen.admin.controller;
 
 import cn.dev33.satoken.annotation.SaIgnore;
 import com.chen.common.constant.Constants;

@@ -6,8 +6,7 @@ package com.chen.common.constant;
  * @author Pipiing
  * @date 2022/09/09
  */
-public interface CacheConstants
-{
+public interface CacheConstants {
     /**
      * 登录账户密码错误次数 redis key
      */
@@ -22,4 +21,9 @@ public interface CacheConstants
      * OSS配置 redis key
      */
     String SYS_OSS_CONFIG = "sys_oss_config";
+
+    /**
+     * 地区数据 redis key（SpringCache缓存Name）
+     */
+    String AREA = "area";
 }

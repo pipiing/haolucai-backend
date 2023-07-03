@@ -1,6 +1,7 @@
 package com.chen.model.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.chen.model.entity.TreeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -85,6 +86,14 @@ public class SysMenu extends TreeEntity<SysMenu> {
     @Schema(description="状态(0:禁止,1:正常)")
     @TableField(value = "status")
     private Integer status;
+
+    /**
+     * 逻辑删除
+     */
+    @TableLogic
+    @Schema(description = "逻辑删除")
+    @TableField("is_deleted")
+    private Integer isDeleted;
 
 
     @TableField(exist = false)

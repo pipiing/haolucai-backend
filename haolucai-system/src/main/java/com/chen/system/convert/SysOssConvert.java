@@ -1,7 +1,7 @@
 package com.chen.system.convert;
 
-import com.chen.model.entity.oss.SysOss;
-import com.chen.model.vo.oss.SysOssVo;
+import com.chen.model.entity.system.SysOss;
+import com.chen.model.vo.system.SysOssVo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

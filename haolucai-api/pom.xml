@@ -1,0 +1,61 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>haolucai-backend</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>haolucai-api</artifactId>
+    <packaging>jar</packaging>
+
+    <name>haolucai-api</name>
+    <description>
+        前台服务入口
+    </description>
+
+    <dependencies>
+        <!-- SpringBootTest依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.junit.vintage</groupId>
+                    <artifactId>junit-vintage-engine</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- common模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- model模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- shop模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-shop</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- oss模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>haolucai-oss</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

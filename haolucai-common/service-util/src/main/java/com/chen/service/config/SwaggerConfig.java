@@ -7,6 +7,7 @@ import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springdoc.core.SpringDocConfiguration;
 import org.springdoc.core.customizers.OpenApiCustomiser;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
@@ -25,6 +26,7 @@ import java.util.Set;
  *
  * @author Lion Li
  */
+@Slf4j
 @RequiredArgsConstructor
 @Configuration
 @AutoConfigureBefore(SpringDocConfiguration.class)
@@ -53,7 +55,6 @@ public class SwaggerConfig {
         keySet.forEach(securityRequirement::addList);
         list.add(securityRequirement);
         openApi.security(list);
-
         return openApi;
     }
 

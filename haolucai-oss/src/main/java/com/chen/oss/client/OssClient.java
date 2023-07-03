@@ -15,10 +15,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.model.CreateBucketRequest;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.services.s3.model.*;
 import com.chen.common.utils.DateUtils;
 import com.chen.oss.constant.OssConstant;
 import com.chen.oss.entity.UploadResult;
@@ -184,6 +181,21 @@ public class OssClient {
     }
 
     /**
+     * 根据文件名称删除OSS对象以及真实文件
+     *
+     * @param fileName 文件名称
+     */
+    public void delete(String fileName) {
+        // 没有在数据库中存储OSS对象信息，则生成Url链接，将真实存储文件路径拆分
+        // path = path.replace(this.getUrl() + "/", "");
+        try {
+            client.deleteObject(properties.getBucketName(), fileName);
+        } catch (Exception e) {
+            throw new OssException("删除文件失败，请检查配置信息:[" + e.getMessage() + "]");
+        }
+    }
+
+    /**
      * 生成存储路径
      *
      * @param prefix 前缀
@@ -246,6 +258,18 @@ public class OssClient {
                         .withExpiration(new Date(System.currentTimeMillis() + 1000L * second));
         URL url = client.generatePresignedUrl(generatePresignedUrlRequest);
         return url.toString();
+    }
+
+    /**
+     * 根据文件路径获得文件对象内容（字节输入流）
+     *
+     * @param path 路径
+     * @return {@link InputStream } 字节输入流
+     */
+    public InputStream getObjectContent(String path) {
+        path = path.replace(getUrl() + "/", "");
+        S3Object object = client.getObject(properties.getBucketName(), path);
+        return object.getObjectContent();
     }
 
     private static String getPolicy(String bucketName, PolicyType policyType) {

@@ -1,4 +1,4 @@
-package com.chen.system.controller;
+package com.chen.admin.controller;
 
 import com.chen.service.controller.BaseController;
 import com.chen.system.service.ISysOssConfigService;

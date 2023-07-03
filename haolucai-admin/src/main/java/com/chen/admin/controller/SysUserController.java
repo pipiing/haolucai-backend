@@ -1,10 +1,10 @@
-package com.chen.system.controller;
+package com.chen.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.secure.BCrypt;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ObjectUtil;
-import com.chen.common.constant.UserConstants;
+import com.chen.common.constant.SystemConstants;
 import com.chen.common.utils.StreamUtils;
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysRole;
@@ -53,12 +53,11 @@ public class SysUserController extends BaseController {
      * @param pageQuery 分页条件查询
      * @return {@link CommonResult }<{@link TableDataInfo }<{@link SysUser }>> 用户表格分页数据对象
      */
-    @Operation(summary ="获取用户列表")
+    @Operation(summary = "获取用户列表")
     @SaCheckPermission("system:user:list")
     @GetMapping("/list")
     public CommonResult<TableDataInfo<SysUser>> list(SysUser user, PageQuery pageQuery) {
-        TableDataInfo<SysUser> sysUserTableDataInfo = sysUserService.selectPageUserList(user, pageQuery);
-        return CommonResult.success(sysUserTableDataInfo);
+        return CommonResult.success(sysUserService.selectPageUserList(user, pageQuery));
     }
 
     /**
@@ -67,7 +66,7 @@ public class SysUserController extends BaseController {
      * @param userId 用户ID
      * @return {@link CommonResult }<{@link SysUser }> 用户详细信息
      */
-    @Operation(summary ="根据用户ID获取用户详细信息")
+    @Operation(summary = "根据用户ID获取用户详细信息")
     @GetMapping("/query/{userId}")
     @SaCheckPermission("system:user:query")
     public CommonResult<Map<String, Object>> queryUserInfo(
@@ -92,13 +91,13 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @Operation(summary ="新增用户信息")
+    @Operation(summary = "新增用户信息")
     @PostMapping("/add")
     @SaCheckPermission("system:user:add")
     public CommonResult<Void> add(@Validated @RequestBody SysUser user) {
-        if (UserConstants.NOT_UNIQUE.equals(sysUserService.checkUserNameUnique(user))) {
+        if (SystemConstants.NOT_UNIQUE.equals(sysUserService.checkUserNameUnique(user))) {
             return CommonResult.error("新增用户[" + user.getUserName() + "]失败，登录账号已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(sysUserService.checkPhoneUnique(user))) {
+        } else if (SystemConstants.NOT_UNIQUE.equals(sysUserService.checkPhoneUnique(user))) {
             return CommonResult.error("新增用户[" + user.getPhone() + "]失败，手机号码已存在");
         }
         // 加密用户登录密码
@@ -111,15 +110,15 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @Operation(summary ="修改用户信息")
+    @Operation(summary = "修改用户信息")
     @PutMapping("/edit")
     @SaCheckPermission("system:user:edit")
     public CommonResult<Void> edit(@Validated @RequestBody SysUser user) {
         // 校验用户是否允许操作 -- 管理员用户不能进行操作
         sysUserService.checkUserAllowed(user);
-        if (UserConstants.NOT_UNIQUE.equals(sysUserService.checkUserNameUnique(user))) {
+        if (SystemConstants.NOT_UNIQUE.equals(sysUserService.checkUserNameUnique(user))) {
             return CommonResult.error("修改用户[" + user.getUserName() + "]失败，登录账号已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(sysUserService.checkPhoneUnique(user))) {
+        } else if (SystemConstants.NOT_UNIQUE.equals(sysUserService.checkPhoneUnique(user))) {
             return CommonResult.error("修改用户[" + user.getPhone() + "]失败，手机号码已存在");
         }
         return toAjax(sysUserService.updateUser(user));
@@ -130,7 +129,7 @@ public class SysUserController extends BaseController {
      *
      * @param userIds 用户ID组
      */
-    @Operation(summary ="删除用户信息")
+    @Operation(summary = "删除用户信息")
     @DeleteMapping("/remove/{userIds}")
     @SaCheckPermission("system:user:remove")
     public CommonResult<Void> remove(
@@ -148,7 +147,7 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @Operation(summary ="重置用户密码")
+    @Operation(summary = "重置用户密码")
     @PutMapping("/resetPwd")
     @SaCheckPermission("system:user:resetPwd")
     public CommonResult<Void> resetPwd(@RequestBody SysUser user) {
@@ -163,7 +162,7 @@ public class SysUserController extends BaseController {
      *
      * @param user 用户信息
      */
-    @Operation(summary ="修改用户状态")
+    @Operation(summary = "修改用户状态")
     @PutMapping("/changeStatus")
     @SaCheckPermission("system:user:edit")
     public CommonResult<Void> changeStatus(@RequestBody SysUser user) {
@@ -176,7 +175,7 @@ public class SysUserController extends BaseController {
      *
      * @param userId 用户ID
      */
-    @Operation(summary ="根据用户ID获取授权角色")
+    @Operation(summary = "根据用户ID获取授权角色")
     @GetMapping("/query/authRole/{userId}")
     @SaCheckPermission("system:user:query")
     public CommonResult<Map<String, Object>> queryAuthRole(
@@ -198,7 +197,7 @@ public class SysUserController extends BaseController {
      * @param userId  用户ID
      * @param roleIds 角色ID组
      */
-    @Operation(summary ="用户授权角色")
+    @Operation(summary = "用户授权角色")
     @PutMapping("/authRole")
     @SaCheckPermission("system:user:edit")
     public CommonResult<Void> insertAuthRole(

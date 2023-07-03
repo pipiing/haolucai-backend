@@ -6,7 +6,7 @@ import cn.dev33.satoken.stp.SaLoginModel;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ObjectUtil;
-import com.chen.common.constant.UserConstants;
+import com.chen.common.constant.SystemConstants;
 import com.chen.common.enums.DeviceType;
 import com.chen.model.entity.system.LoginUser;
 
@@ -109,7 +109,7 @@ public class LoginHelper {
      * @return boolean 结果
      */
     public static boolean isAdmin(Long userId) {
-        return UserConstants.ADMIN_ID.equals(userId);
+        return SystemConstants.ADMIN_ID.equals(userId);
     }
 
     /**

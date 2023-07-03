@@ -1,7 +1,7 @@
-package com.chen.system.controller;
+package com.chen.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import com.chen.common.constant.UserConstants;
+import com.chen.common.constant.SystemConstants;
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysRole;
 import com.chen.model.entity.system.SysUser;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 @Slf4j
@@ -46,8 +46,7 @@ public class SysRoleController extends BaseController {
     @SaCheckPermission("system:role:list")
     @GetMapping("/list")
     public CommonResult<TableDataInfo<SysRole>> list(SysRole role, PageQuery pageQuery) {
-        TableDataInfo<SysRole> sysUserTableDataInfo = sysRoleService.selectPageRoleList(role,pageQuery);
-        return CommonResult.success(sysUserTableDataInfo);
+        return CommonResult.success(sysRoleService.selectPageRoleList(role,pageQuery));
     }
 
     /**
@@ -60,7 +59,7 @@ public class SysRoleController extends BaseController {
     @GetMapping("/query/{roleId}")
     @SaCheckPermission("system:role:query")
     public CommonResult<SysRole> queryRoleInfo(
-            @PathVariable @Parameter(name = "roleId", description = "角色ID", required = true) @NotNull(message = "角色ID不能为空") Long roleId
+            @PathVariable @Parameter(name = "roleId", description = "角色ID", required = true) @NotEmpty(message = "角色ID不能为空") Long roleId
     ) {
         return CommonResult.success(sysRoleService.selectRoleById(roleId));
     }
@@ -74,9 +73,9 @@ public class SysRoleController extends BaseController {
     @PostMapping("/add")
     @SaCheckPermission("system:role:add")
     public CommonResult<Void> add(@Validated @RequestBody SysRole role) {
-        if (UserConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleNameUnique(role))) {
+        if (SystemConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleNameUnique(role))) {
             return CommonResult.error("新增角色[" + role.getRoleName() + "]失败，角色名称已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleKeyUnique(role))) {
+        } else if (SystemConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleKeyUnique(role))) {
             return CommonResult.error("新增角色[" + role.getRoleKey() + "]失败，角色权限已存在");
         }
         return toAjax(sysRoleService.insertRole(role));
@@ -93,9 +92,9 @@ public class SysRoleController extends BaseController {
     public CommonResult<Void> edit(@Validated @RequestBody SysRole role) {
         // 校验角色是否允许操作 -- 管理员角色不能进行操作
         sysRoleService.checkRoleAllowed(role);
-        if (UserConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleNameUnique(role))) {
+        if (SystemConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleNameUnique(role))) {
             return CommonResult.error("修改角色[" + role.getRoleName() + "]失败，角色名称已存在");
-        } else if (UserConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleKeyUnique(role))) {
+        } else if (SystemConstants.NOT_UNIQUE.equals(sysRoleService.checkRoleKeyUnique(role))) {
             return CommonResult.error("修改角色[" + role.getRoleKey() + "]失败，角色权限已存在");
         }
         // 如果修改角色信息成功，则需要强制注销在线且拥有该角色权限的用户
@@ -170,7 +169,7 @@ public class SysRoleController extends BaseController {
     @SaCheckPermission("system:role:edit")
     @PutMapping("/authUser/cancelAll")
     public CommonResult<Void> cancelAuthUserAll(
-            @Parameter(name = "roleId", description = "角色ID") @NotNull(message = "角色ID不能为空") Long roleId,
+            @Parameter(name = "roleId", description = "角色ID") @NotEmpty(message = "角色ID不能为空") Long roleId,
             @Parameter(name = "userIds", description = "用户ID组") Long[] userIds
     ){
         return toAjax(sysRoleService.deleteAuthUsers(roleId,userIds));
@@ -186,7 +185,7 @@ public class SysRoleController extends BaseController {
     @SaCheckPermission("system:role:edit")
     @PostMapping("/authUser/selectAll")
     public CommonResult<Void> selectAuthUserAll(
-            @Parameter(name = "roleId", description = "角色ID") @NotNull(message = "角色ID不能为空") Long roleId,
+            @Parameter(name = "roleId", description = "角色ID") @NotEmpty(message = "角色ID不能为空") Long roleId,
             @Parameter(name = "userIds", description = "用户ID组") Long[] userIds
     ){
         return toAjax(sysRoleService.insertAuthUsers(roleId, userIds));

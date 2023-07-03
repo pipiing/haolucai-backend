@@ -1,6 +1,7 @@
-package com.chen.model.entity.oss;
+package com.chen.model.entity.system;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.chen.model.entity.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -52,6 +53,15 @@ public class SysOss extends BaseEntity {
     @Schema(description = "服务商（默认minio）")
     @TableField(value = "service")
     private String service;
+
+    /**
+     * 逻辑删除
+     */
+    @TableLogic
+    @Schema(description = "逻辑删除")
+    @TableField("is_deleted")
+    private Integer isDeleted;
+
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

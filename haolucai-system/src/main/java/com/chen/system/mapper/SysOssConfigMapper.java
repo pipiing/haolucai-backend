@@ -1,7 +1,7 @@
 package com.chen.system.mapper;
 
 
-import com.chen.model.entity.oss.SysOssConfig;
+import com.chen.model.entity.system.SysOssConfig;
 import com.chen.service.mapper.BaseMapperPlus;
 import org.springframework.stereotype.Repository;
 

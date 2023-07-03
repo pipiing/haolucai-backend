@@ -1,7 +1,7 @@
 package com.chen.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.chen.model.entity.oss.SysOssConfig;
+import com.chen.model.entity.system.SysOssConfig;
 
 /**
  * @author Pipiing

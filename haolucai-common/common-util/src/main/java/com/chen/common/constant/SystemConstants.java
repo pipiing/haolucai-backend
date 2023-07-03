@@ -1,12 +1,12 @@
 package com.chen.common.constant;
 
 /**
- * 用户常量信息
+ * 系统模块常量信息
  *
  * @author Pipiing
  * @date 2023/05/26 11:31:04
  */
-public interface UserConstants {
+public interface SystemConstants {
 
 
     /**
@@ -75,12 +75,12 @@ public interface UserConstants {
     String TYPE_BUTTON = "B";
 
     /**
-     * 用户唯一
+     * 唯一
      */
     String UNIQUE = "0";
 
     /**
-     * 用户不唯一
+     * 不唯一
      */
     String NOT_UNIQUE = "1";
 
@@ -89,5 +89,8 @@ public interface UserConstants {
      */
     Long ADMIN_ID = 1L;
 
-
+    /**
+     * 性别未知
+     */
+    String SEX_UNKNOW = "2";
 }

@@ -9,7 +9,6 @@ mybatis-plus:
     # 更详细的日志输出 会有性能损耗
     logImpl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-
 spring:
   # 文件上传
   servlet:
@@ -35,7 +34,7 @@ spring:
       fail_on_unknown_properties: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/hlc-react?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://localhost:3306/hlc-react?characterEncoding=UTF-8&useSSL=false&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true&rewriteBatchedStatements=true
     username: root
     password: 202428
   # Redis
@@ -60,19 +59,27 @@ springdoc:
   swagger-ui:
     # 持久化认证数据
     persistAuthorization: true
+    #这里定义了两个分组，可定义多个，也可以不定义
+  group-configs:
+    - group: 1.后台系统模块
+      packages-to-scan: com.chen.admin
+    - group: 2.前台Api模块
+      packages-to-scan: com.chen.api
 
 # Swagger配置
 swagger:
   info:
     # 标题
-    title: '标题：好鲁菜后台管理系统_接口文档'
+    title: '标题: 好鲁菜后台管理系统_接口文档'
     # 描述
-    description: ''
+    description: '预制菜电商项目'
+    # 版本
+    version: '版本号: 1.0'
     # 作者信息
     contact:
-      name: Pipiing
-      email: 1292379046@qq.com
-      url: https://github.com/pipiing
+      name: 'Pipiing'
+      email: '1292379046@qq.com'
+      url: 'https://github.com/pipiing'
   components:
     # 鉴权方式配置
     security-schemes:
@@ -129,7 +136,7 @@ sa-token:
 user:
   password:
     # 密码最大错误次数
-    maxRetryCount: 3
+    maxRetryCount: 5
     # 密码锁定时间（默认5分钟）
-    lockTime: 5
+    lockTime: 10
 

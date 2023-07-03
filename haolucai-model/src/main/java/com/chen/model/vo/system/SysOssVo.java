@@ -1,4 +1,4 @@
-package com.chen.model.vo.oss;
+package com.chen.model.vo.system;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;

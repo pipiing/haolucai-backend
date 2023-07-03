@@ -19,22 +19,26 @@
             <artifactId>common-util</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <!-- common-model依赖 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+
         <!-- SpringMvc依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <!-- MySql驱动依赖 -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
+
         <!-- SpringAop依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

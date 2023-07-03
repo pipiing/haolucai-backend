@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.chen.common.constant.UserConstants;
+import com.chen.common.constant.SystemConstants;
 import com.chen.model.entity.PageQuery;
 import com.chen.model.entity.system.SysUser;
 import com.chen.model.entity.system.SysUserRole;
@@ -24,10 +24,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author chen
@@ -68,9 +65,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         boolean isExist = baseMapper.exists(lambdaQueryWrapper);
 
         if (isExist) {
-            return UserConstants.NOT_UNIQUE;
+            return SystemConstants.NOT_UNIQUE;
         }
-        return UserConstants.UNIQUE;
+        return SystemConstants.UNIQUE;
     }
 
     @Override
@@ -81,14 +78,17 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         boolean isExist = baseMapper.exists(lambdaQueryWrapper);
 
         if (isExist) {
-            return UserConstants.NOT_UNIQUE;
+            return SystemConstants.NOT_UNIQUE;
         }
-        return UserConstants.UNIQUE;
+        return SystemConstants.UNIQUE;
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
     public int insertUser(SysUser user) {
+        if (ObjectUtil.isNull(user.getSex())){
+            user.setSex(SystemConstants.SEX_UNKNOW);
+        }
         // 新增用户信息
         int rows = baseMapper.insert(user);
         // 新增用户与角色信息
@@ -150,7 +150,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
     @Override
     public TableDataInfo<SysUser> selectAssignedList(SysUser user, PageQuery pageQuery) {
         QueryWrapper<SysUser> QueryWrapper = new QueryWrapper<>();
-        QueryWrapper.eq("u.is_deleted",UserConstants.USER_NORMAL) // 账号未删除
+        QueryWrapper.eq("u.is_deleted", SystemConstants.USER_NORMAL) // 账号未删除
                 .eq(ObjectUtil.isNotNull(user.getRoleId()),"r.id",user.getRoleId()) // 已分配角色ID
                 .like(StringUtils.isNotBlank(user.getUserName()), "u.user_name", user.getUserName()) // 用户名模糊查询
                 .eq(ObjectUtil.isNotNull(user.getStatus()), "u.status", user.getStatus()) // 账号是否被禁用
@@ -165,7 +165,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         // 根据角色ID查询拥有该角色的全部用户ID集合
         List<Long> userIds = sysUserRoleMapper.selectUserIdsByRoleId(user.getRoleId());
         QueryWrapper<SysUser> QueryWrapper = new QueryWrapper<>();
-        QueryWrapper.eq("u.is_deleted",UserConstants.USER_NORMAL) // 账号未删除
+        QueryWrapper.eq("u.is_deleted", SystemConstants.USER_NORMAL) // 账号未删除
                 // AND (r.id <> ? OR r.id IS NULL) 用于缩小数据范围，先将 非当前roleId 和 roleId==Null 的用户取出
                 .and(w -> w.ne("r.id", user.getRoleId()).or().isNull("r.id"))
                 .notIn(CollUtil.isNotEmpty(userIds),"u.id",userIds) // 将拥有该角色的用户ID全部排除
@@ -187,7 +187,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser>
         Map<String, Object> params = user.getParams();
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper
-                .eq(SysUser::getIsDeleted, UserConstants.USER_NORMAL) // 账号未删除
+                .eq(SysUser::getIsDeleted, SystemConstants.USER_NORMAL) // 账号未删除
                 .eq(ObjectUtil.isNotNull(user.getId()), SysUser::getId, user.getId()) // 用户ID查询
                 .like(StrUtil.isNotBlank(user.getUserName()), SysUser::getUserName, user.getUserName()) // 用户名模糊查询
                 .eq(ObjectUtil.isNotNull(user.getStatus()), SysUser::getStatus, user.getStatus()) // 账号是否被禁用

@@ -11,7 +11,7 @@ public interface Constants
     /**
      * 令牌
      */
-    public String TOKEN = "token";
+    String TOKEN = "token";
 
 
 }

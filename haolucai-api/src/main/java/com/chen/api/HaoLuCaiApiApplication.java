@@ -1,23 +1,24 @@
-package com.chen;
+package com.chen.api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-
 /**
- * 启动程序
+ * Hello world!
  *
  * @author Pipiing
- * @date 2023/05/21 21:33:42
+ * @description
+ * @date 2023/06/28 08:06:00
  */
 @Slf4j
 @SpringBootApplication(scanBasePackages = "com.chen")
-public class HaoLuCaiApplication {
+public class HaoLuCaiApiApplication
+{
     public static void main(String[] args) {
-        SpringApplication application = new SpringApplication(HaoLuCaiApplication.class);
+        SpringApplication application = new SpringApplication(HaoLuCaiApiApplication.class);
         application.run(args);
-        log.info("(♥◠‿◠)ﾉﾞ  HaoLuCai启动成功   ლ(´ڡ`ლ)ﾞ");
+        log.info("(♥◠‿◠)ﾉﾞ  HaoLuCai前台服务启动成功   ლ(´ڡ`ლ)ﾞ");
     }
 
 }

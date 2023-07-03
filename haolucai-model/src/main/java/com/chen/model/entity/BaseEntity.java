@@ -55,14 +55,6 @@ public class BaseEntity implements Serializable {
     private Date updateTime;
 
     /**
-     * 逻辑删除
-     */
-    @TableLogic
-    @Schema(description = "逻辑删除")
-    @TableField("is_deleted")
-    private Integer isDeleted;
-
-    /**
      * 其他参数
      */
     @TableField(exist = false)

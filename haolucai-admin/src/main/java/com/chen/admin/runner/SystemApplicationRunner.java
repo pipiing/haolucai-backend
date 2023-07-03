@@ -1,4 +1,4 @@
-package com.chen.runner;
+package com.chen.admin.runner;
 
 import com.chen.system.service.ISysOssConfigService;
 import lombok.extern.slf4j.Slf4j;

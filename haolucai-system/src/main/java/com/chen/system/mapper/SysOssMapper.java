@@ -1,6 +1,7 @@
 package com.chen.system.mapper;
 
-import com.chen.model.entity.oss.SysOss;
+import com.chen.model.entity.system.SysOss;
+import com.chen.model.vo.system.SysOssVo;
 import com.chen.service.mapper.BaseMapperPlus;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,7 @@ import org.springframework.stereotype.Repository;
 * @Entity com.chen.model.SysOss
 */
 @Repository
-public interface SysOssMapper extends BaseMapperPlus<SysOssMapper,SysOss,SysOss> {
+public interface SysOssMapper extends BaseMapperPlus<SysOssMapper,SysOss, SysOssVo> {
 
 }
 

@@ -5,7 +5,7 @@ import cn.hutool.core.util.StrUtil;
 import com.chen.common.constant.CacheConstants;
 import com.chen.common.utils.BeanCopyUtils;
 import com.chen.common.utils.RedisUtils;
-import com.chen.model.entity.oss.SysOssConfig;
+import com.chen.model.entity.system.SysOssConfig;
 import com.chen.oss.client.OssClient;
 import com.chen.oss.constant.OssConstant;
 import com.chen.oss.properties.OssProperties;
