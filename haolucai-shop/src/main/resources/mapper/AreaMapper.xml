@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chen.shop.mapper.AreaMapper">
+
+    <resultMap id="BaseResultMap" type="com.chen.model.entity.shop.Area">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="areaName" column="area_name" jdbcType="VARCHAR"/>
+        <result property="parentId" column="parent_id" jdbcType="BIGINT"/>
+        <result property="level" column="level" jdbcType="CHAR"/>
+        <result property="createBy" column="create_by" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateBy" column="update_by" jdbcType="VARCHAR"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id
+        ,area_name,parent_id,
+        level,create_by,create_time,
+        update_by,update_time
+    </sql>
+
+    <select id="selectMinLevelAreaListByAreaName" resultType="com.chen.model.entity.shop.Area">
+        select a.id, a.area_name, a.parent_id, a.level
+        from area a
+                 left join (select parent_id, max(level) as max_level
+                            from area
+                            where area_name like concat('%',#{areaName},'%')
+                            group by parent_id) subquery on a.id = subquery.parent_id
+        where a.area_name like concat('%',#{areaName},'%')
+          and a.level = coalesce(subquery.max_level, a.level)
+        order by a.parent_id;
+    </select>
+
+
+</mapper>
