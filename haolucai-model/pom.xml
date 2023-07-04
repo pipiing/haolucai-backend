@@ -4,20 +4,26 @@
     <parent>
         <groupId>com.chen</groupId>
         <artifactId>haolucai-backend</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>haolucai-model</artifactId>
-    <packaging>jar</packaging>
 
     <name>haolucai-model</name>
 
     <dependencies>
-        <!-- common-util依赖 -->
+        <!-- Common-MyBatis模块 -->
         <dependency>
             <groupId>com.chen</groupId>
-            <artifactId>common-util</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <artifactId>common-mybatis</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+
+        <!-- Common-Doc模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-doc</artifactId>
+            <version>1.0.0</version>
         </dependency>
     </dependencies>
 

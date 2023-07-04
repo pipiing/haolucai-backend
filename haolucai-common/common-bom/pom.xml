@@ -1,0 +1,101 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.chen</groupId>
+    <artifactId>common-bom</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+
+    <name>common-bom</name>
+    <description>
+        common-bom common依赖项
+    </description>
+
+    <properties>
+        <revision>1.0.0</revision>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- 核心模块 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 接口模块 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-doc</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 日志记录 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-log</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 数据库服务 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-mybatis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- OSS -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-oss</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 缓存服务 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-redis</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- satoken -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-satoken</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 安全模块 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-security</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- web服务 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 序列化模块 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-json</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <!-- 幂等模块 -->
+            <dependency>
+                <groupId>com.chen</groupId>
+                <artifactId>common-idempotent</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

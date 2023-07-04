@@ -4,18 +4,30 @@
     <parent>
         <groupId>com.chen</groupId>
         <artifactId>haolucai-backend</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>haolucai-common</artifactId>
     <packaging>pom</packaging>
-
     <name>haolucai-common</name>
+    <description>
+        common 通用模块
+    </description>
+
 
     <modules>
-        <module>common-util</module>
-        <module>service-util</module>
         <module>common-log</module>
+        <module>common-core</module>
+        <module>common-doc</module>
+        <module>common-json</module>
+        <module>common-idempotent</module>
+        <module>common-satoken</module>
+        <module>common-redis</module>
+        <module>common-mybatis</module>
+        <module>common-web</module>
+        <module>common-security</module>
+        <module>common-oss</module>
+        <module>common-bom</module>
     </modules>
 
 

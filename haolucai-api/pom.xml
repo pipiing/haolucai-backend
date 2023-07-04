@@ -4,12 +4,11 @@
     <parent>
         <groupId>com.chen</groupId>
         <artifactId>haolucai-backend</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <version>${revision}</version>
     </parent>
 
     <artifactId>haolucai-api</artifactId>
     <packaging>jar</packaging>
-
     <name>haolucai-api</name>
     <description>
         前台服务入口
@@ -26,35 +25,16 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-
-        <!-- common模块 -->
-        <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- model模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
-        <!-- shop模块 -->
-        <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-shop</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <!-- oss模块 -->
-        <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-oss</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
     </dependencies>
 
 

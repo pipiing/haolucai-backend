@@ -1,0 +1,56 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>haolucai-common</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>common-satoken</artifactId>
+    <name>common-satoken</name>
+    <description>
+        common-satoken 安全权限管理服务
+    </description>
+
+
+    <dependencies>
+        <!-- Common-Core模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+
+        <!-- Common-Redis模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-redis</artifactId>
+        </dependency>
+
+        <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Sa-Token 整合 jwt -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-jwt</artifactId>
+        </dependency>
+        <!-- Sa-Token 整合 Redis （使用 jackson 序列化方式） -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-dao-redis-jackson</artifactId>
+        </dependency>
+        <!-- Sa-Token 整合 SpringAOP 实现注解鉴权 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-spring-aop</artifactId>
+        </dependency>
+        <!-- 提供Redis连接池 -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+    </dependencies>
+</project>

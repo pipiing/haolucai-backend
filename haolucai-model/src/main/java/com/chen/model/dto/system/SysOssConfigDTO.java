@@ -1,8 +1,9 @@
 package com.chen.model.dto.system;
 
-import com.chen.common.validate.AddGroup;
-import com.chen.common.validate.EditGroup;
-import com.chen.model.entity.BaseEntity;
+
+import com.chen.common.core.validate.AddGroup;
+import com.chen.common.core.validate.EditGroup;
+import com.chen.common.mybatis.core.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

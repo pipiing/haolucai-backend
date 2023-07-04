@@ -27,42 +27,30 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>test</scope>
         </dependency>
 
-        <!-- common模块 -->
+        <!-- MySql驱动依赖 -->
         <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-        <!-- model模块 -->
-        <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-model</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-
-        <!-- system模块 -->
+        <!-- System后台管理系统模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-system</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
-        <!-- shop模块 -->
+        <!-- Shop前台商城模块 -->
         <dependency>
             <groupId>com.chen</groupId>
             <artifactId>haolucai-shop</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>1.0.0</version>
         </dependency>
 
-        <!-- oss模块 -->
-        <dependency>
-            <groupId>com.chen</groupId>
-            <artifactId>haolucai-oss</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+
 
     </dependencies>
 

@@ -7,18 +7,15 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 import com.alibaba.fastjson2.JSONObject;
 import com.chen.admin.HaoLuCaiApplication;
-import com.chen.common.constant.GaoDeMapConstants;
-import com.chen.common.enums.AreaLevel;
-import com.chen.model.dto.system.SysRoleDTO;
-import com.chen.model.entity.PageQuery;
+import com.chen.common.core.constant.GaoDeMapConstants;
+import com.chen.common.core.domain.model.LoginUser;
+import com.chen.common.core.enums.AreaLevel;
+import com.chen.common.mybatis.core.page.PageQuery;
+import com.chen.common.mybatis.core.page.TableDataInfo;
+import com.chen.common.satoken.helper.LoginHelper;
 import com.chen.model.entity.shop.Area;
-import com.chen.model.entity.system.LoginUser;
-import com.chen.model.entity.system.SysRole;
 import com.chen.model.entity.system.SysUser;
-import com.chen.service.helper.LoginHelper;
-import com.chen.service.page.TableDataInfo;
 import com.chen.shop.mapper.AreaMapper;
-import com.chen.system.convert.SysRoleConvert;
 import com.chen.system.mapper.SysUserMapper;
 import com.chen.system.service.ISysUserService;
 import com.chen.system.service.SysPermissionService;
@@ -45,8 +42,6 @@ public class HaoLuCaiApplicationTest {
     @Autowired
     private SysPermissionService sysPermissionService;
 
-    @Autowired
-    private SysRoleConvert sysRoleConvert;
 
     @Autowired
     private AreaMapper areaMapper;
@@ -76,13 +71,6 @@ public class HaoLuCaiApplicationTest {
         log.info("rolePermission:{}", rolePermission);
     }
 
-    @Test
-    public void test5() {
-        SysRole sysRole = new SysRole();
-        sysRole.setRoleName("admin");
-        SysRoleDTO sysRoleDTO = sysRoleConvert.roleToDTO(sysRole);
-        log.info("RoleDTO:{}", sysRoleDTO);
-    }
 
     @Test
     public void test6() {

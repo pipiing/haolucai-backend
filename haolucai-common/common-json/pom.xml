@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>haolucai-common</artifactId>
+        <version>${revision}</version>
+
+    </parent>
+
+    <artifactId>common-json</artifactId>
+    <name>common-json</name>
+    <description>
+        common-json 序列化模块
+    </description>
+
+    <dependencies>
+        <!-- Common-Core核心模块依赖 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+        <!-- JSON工具类依赖 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+    </dependencies>
+</project>

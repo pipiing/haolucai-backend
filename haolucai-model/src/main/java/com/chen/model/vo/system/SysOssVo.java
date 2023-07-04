@@ -1,9 +1,13 @@
 package com.chen.model.vo.system;
 
+import com.chen.model.entity.system.SysOss;
+import io.github.linpeilie.annotations.AutoMapper;
+import io.github.linpeilie.annotations.AutoMapping;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -15,11 +19,15 @@ import java.util.Date;
  */
 @Data
 @Tag(name = "SysOssVo", description = "OSS对象存储视图对象")
-public class SysOssVo {
+@AutoMapper(target = SysOss.class)
+public class SysOssVo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * OSS对象ID
      */
+    @AutoMapping(target = "id")
     @Schema(description = "OSS对象ID")
     private Long ossId;
 

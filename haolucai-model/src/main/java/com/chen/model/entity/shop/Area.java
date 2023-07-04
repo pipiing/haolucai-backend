@@ -2,7 +2,7 @@ package com.chen.model.entity.shop;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.chen.model.entity.TreeEntity;
+import com.chen.common.mybatis.core.domain.TreeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;

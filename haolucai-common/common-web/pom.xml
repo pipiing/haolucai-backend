@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>haolucai-common</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>common-web</artifactId>
+    <name>common-web</name>
+    <description>
+        common-web web服务
+    </description>
+
+    <dependencies>
+        <!-- Common-Json模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-json</artifactId>
+        </dependency>
+
+        <!-- Common-Redis模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-redis</artifactId>
+        </dependency>
+
+        <!-- SpringMvc依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- web 容器使用 undertow 性能更强 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+    </dependencies>
+</project>

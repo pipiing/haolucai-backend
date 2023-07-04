@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>haolucai-common</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>common-mybatis</artifactId>
+    <name>common-mybatis</name>
+    <description>
+        common-mybatis 数据库服务
+    </description>
+
+    <dependencies>
+        <!-- Common-Core核心模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+        <!-- Common-SaToken模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-satoken</artifactId>
+        </dependency>
+
+        <!-- MyBatisPlus依赖 -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+
+        <!-- sql性能分析插件 -->
+        <dependency>
+            <groupId>p6spy</groupId>
+            <artifactId>p6spy</artifactId>
+        </dependency>
+    </dependencies>
+</project>

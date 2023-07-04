@@ -2,10 +2,10 @@ package com.chen.admin.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.lang.tree.Tree;
+import com.chen.common.core.domain.CommonResult;
+import com.chen.common.web.core.BaseController;
 import com.chen.model.entity.shop.Area;
 import com.chen.model.entity.system.SysMenu;
-import com.chen.service.controller.BaseController;
-import com.chen.service.result.CommonResult;
 import com.chen.shop.service.IAreaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

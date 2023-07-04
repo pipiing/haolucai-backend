@@ -1,0 +1,62 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.chen</groupId>
+        <artifactId>haolucai-modules</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <artifactId>haolucai-system</artifactId>
+
+    <name>haolucai-system</name>
+    <description>
+        后台系统模块
+    </description>
+
+    <dependencies>
+        <!-- Common-Core模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
+        <!-- Common-Doc模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-doc</artifactId>
+        </dependency>
+        <!-- Common-MyBatis模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-mybatis</artifactId>
+        </dependency>
+        <!-- Common-Oss模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-oss</artifactId>
+        </dependency>
+        <!-- Common-Log模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-log</artifactId>
+        </dependency>
+        <!-- Common-Security模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-security</artifactId>
+        </dependency>
+        <!-- Common-Web模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
+        <!-- Common-Idempotent模块 -->
+        <dependency>
+            <groupId>com.chen</groupId>
+            <artifactId>common-idempotent</artifactId>
+        </dependency>
+
+    </dependencies>
+
+
+</project>

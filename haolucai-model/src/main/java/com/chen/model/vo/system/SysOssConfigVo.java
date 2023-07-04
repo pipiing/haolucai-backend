@@ -4,6 +4,8 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
 
+import java.io.Serializable;
+
 
 /**
  * 对象存储配置视图对象 sys_oss_config
@@ -14,7 +16,9 @@ import lombok.Data;
  */
 @Data
 @Tag(name = "SysOssConfigVo", description = "对象存储配置视图对象")
-public class SysOssConfigVo {
+public class SysOssConfigVo implements Serializable {
+
+    private static final long serialVersionUID = 1L;
 
     /**
      * OSS配置ID

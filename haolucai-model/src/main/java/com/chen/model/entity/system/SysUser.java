@@ -3,8 +3,8 @@ package com.chen.model.entity.system;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.chen.common.constant.SystemConstants;
-import com.chen.model.entity.BaseEntity;
+import com.chen.common.core.constant.UserConstants;
+import com.chen.common.mybatis.core.domain.BaseEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.Data;
@@ -142,7 +142,7 @@ public class SysUser extends BaseEntity {
     }
 
     public boolean isAdmin() {
-        return SystemConstants.ADMIN_ID.equals(this.getId());
+        return UserConstants.ADMIN_ID.equals(this.getId());
     }
 
 
